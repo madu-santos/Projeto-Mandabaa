@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandabaa — Plataforma de Reciclagem</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <span class="icon">♻️</span>
+            <h1>Mandabaa</h1>
+        </div>
+        <nav>
+            <button class="nav-btn active" onclick="mostrarAba('carteira')">Minha Carteira</button>
+            <button class="nav-btn" onclick="mostrarAba('beneficios')">Benefícios</button>
+            <button class="nav-btn" onclick="mostrarAba('campanhas')">Campanhas</button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Aba 1: Carteira e Saldo (US05) -->
+        <section id="aba-carteira" class="aba-conteudo ativa">
+            <div class="card-carteira">
+                <h2>Saldo Disponível</h2>
+                <div class="saldo-destaque">
+                    <span id="saldo-pontos" class="pontos">0</span>
+                    <span class="unidade">pontos</span>
+                </div>
+                <div class="equivalente-reais">
+                    Equivalente a <strong id="saldo-reais">R$ 0,00</strong>
+                </div>
+                <button class="btn-primary" onclick="mostrarAba('beneficios')">🎁 Trocar Pontos por Benefícios</button>
+            </div>
+        </section>
+
+        <!-- Aba 2: Catálogo de Ofertas e Resgate (US03) -->
+        <section id="aba-beneficios" class="aba-conteudo">
+            <div class="secao-header">
+                <h2>Catálogo de Benefícios & Cupons</h2>
+                <p>Troque seus pontos acumulados nas entregas de PET por vantagens reais.</p>
+            </div>
+            <div id="grid-ofertas" class="grid-ofertas">
+                <!-- Cards de ofertas carregados dinamicamente via app.js -->
+            </div>
+        </section>
+
+        <!-- Aba 3: Campanhas e Avisos (US07) -->
+        <section id="aba-campanhas" class="aba-conteudo">
+            <div class="secao-header">
+                <h2>Campanhas Promocionais</h2>
+                <p>Fique atento aos bônus temporários e multiplique seus pontos!</p>
+            </div>
+            <div id="grid-campanhas" class="grid-campanhas">
+                <!-- Cards de campanhas carregados dinamicamente via app.js -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Confirmacao de Resgate -->
+    <div id="modal-resgate" class="modal-overlay oculto">
+        <div class="modal-card">
+            <h3>Confirmar Resgate</h3>
+            <p id="modal-resgate-texto">Deseja resgatar esta oferta?</p>
+            <div class="modal-acoes">
+                <button class="btn-secondary" onclick="fecharModalResgate()">Cancelar</button>
+                <button id="btn-confirmar-resgate" class="btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Sucesso com Voucher -->
+    <div id="modal-voucher" class="modal-overlay oculto">
+        <div class="modal-card sucesso">
+            <div class="icone-sucesso">✅</div>
+            <h3>Resgate Concluído!</h3>
+            <p>Apresente o código abaixo na loja parceira:</p>
+            <div id="codigo-voucher" class="codigo-box">MANDABAA-XXXX</div>
+            <button class="btn-primary" onclick="fecharModalVoucher()">Fechar e Atualizar Saldo</button>
+        </div>
+    </div>
+
+    <!-- Toast de Notificacao (Sucesso / Erro) -->
+    <div id="toast" class="toast oculto"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
