@@ -9,13 +9,13 @@
 
 ## 1. OBJETIVO DA ENTREGA E REGRAS DA PROFESSORA
 
-Entregar uma primeira versão funcional e visualmente agradável do **Mandabaa** em 5 dias, unindo o que foi pedido na **Sprint 5** (tabela atualizada do Backlog com Prioridade e Story Points, seleção de 13 SP e implementação parcial) com o roteiro obrigatório da **Sprint 5.1** (Verificação e Validação com TDD assistido por IA):
+Entregar uma primeira versão funcional e visualmente agradável do **Mandabaa** em 5 dias, unindo a **Sprint 5** (tabela atualizada do Backlog com Prioridade e Story Points, seleção de 13 SP priorizando as histórias mais importantes e implementação parcial) com o roteiro obrigatório da **Sprint 5.1** (Verificação e Validação com TDD assistido por IA):
 
-1. **Verificação (*"Estamos construindo o produto corretamente?"*):** garantida por testes unitários automatizados em **Java com JUnit 5 e Mockito**, no ciclo estrito:
+1. **Verificação (*"Estamos construindo o produto corretamente?"*):** garantida por testes unitários automatizados em **Java com JUnit 5 e Mockito**, seguindo o ciclo estrito:
    * 🔴 **RED:** criar o teste a partir dos critérios *Dado que... Quando... Então...* e comprovar que ele **falha** antes de escrever a regra de negócio.
    * 🟢 **GREEN:** escrever apenas o código mínimo necessário na classe de serviço para fazer os testes passarem.
    * 🔵 **REFACTOR:** melhorar nomes, clareza e divisão de responsabilidades mantendo 100% dos testes verdes.
-2. **Validação (*"Estamos construindo o produto certo?"*):** demonstrar na tela, com um **Roteiro de Teste de Aceitação** em linguagem simples, o caminho feliz e os cenários de erro, fechando com o **Checklist de Aceite (Definition of Done)**.
+2. **Validação (*"Estamos construindo o produto certo?"*):** demonstrar na tela, com um **Roteiro de Teste de Aceitação** em linguagem simples, o caminho feliz e os cenários de erro, encerrando com o **Checklist de Aceite (Definition of Done)**.
 3. **Revisão Humana Obrigatória:** nada gerado por IA entra no projeto sem revisão, execução na IDE e registro de prompts/respostas pela equipe.
 
 ---
@@ -28,126 +28,147 @@ A tabela oficial também está salva no repositório em `docs/backlog-sprint5.md
 
 | ID | User Story | Prioridade (Cliente) | Story Points | Situação no Projeto |
 | :---: | :--- | :---: | :---: | :--- |
-| **US01** | Registro e Histórico de Coletas | Importante | 2 | Modelada na Sprint 4 |
-| **US02** | Busca de Pontos de Coleta Próximos | Essencial | 5 | Modelada na Sprint 4 |
+| **US01** | **Registro e Histórico de Coletas** | **Importante** | **2** | **SELECIONADA — Sprint 5 / 5.1** |
+| **US02** | Busca de Pontos de Coleta Próximos | Essencial | 5 | Próxima Sprint (mapa/geolocalização) |
 | **US03** | **Resgate de Benefícios e Cashback** | **Essencial** | **8** | **SELECIONADA — Sprint 5 / 5.1** |
-| **US04** | Cadastro e Gestão de Ofertas por Empresas Parceiras | Importante | 8 | Backlog futuro (passaria de 13 SP) |
-| **US05** | Consulta de Saldo e Carteira | Essencial | 3 | Modelada na Sprint 4 + apoio visual na US03 |
+| **US04** | Cadastro e Gestão de Ofertas por Empresas Parceiras | Importante | 8 | Backlog futuro |
+| **US05** | **Consulta de Saldo e Carteira** | **Essencial** | **3** | **SELECIONADA — Sprint 5 / 5.1** |
 | **US06** | Ranking de Entregas | Desejável | 3 | Backlog futuro |
-| **US07** | **Notificações e Campanhas Temporárias de Recompensas** | **Desejável** | **5** | **SELECIONADA — Sprint 5 / 5.1** |
-| **US08** | Consulta da Verificação dos Pontos de Coleta | Importante | 1 | Modelada na Sprint 4 |
+| **US07** | Notificações e Campanhas Temporárias de Recompensas | Desejável | 5 | Backlog futuro |
+| **US08** | Consulta da Verificação dos Pontos de Coleta | Importante | 1 | Próxima Sprint (acompanha US02) |
 
-### 2.2. Seleção da Sprint (Capacidade: 13 Story Points)
-$$\text{US03 (8 SP)} + \text{US07 (5 SP)} = \mathbf{13\text{ Story Points}}$$
+### 2.2. Seleção da Sprint (Capacidade: 13 Story Points — 100% Prioritária!)
+$$\text{US03 (8 SP — Essencial)} + \text{US05 (3 SP — Essencial)} + \text{US01 (2 SP — Importante)} = \mathbf{13\text{ Story Points}}$$
+
+**Por que essa seleção é mais fácil e mais forte?**
+* Cumpre à risca a orientação da professora de implementar **primeiro as funcionalidades prioritárias** (sem puxar história *Desejável* na frente de *Essencial*).
+* Entrega exatamente o **fluxo das telas do mockup verde** que o grupo já apresentou: **Histórico de Coletas (US01) $\rightarrow$ Minha Carteira (US05) $\rightarrow$ Benefícios e Resgates (US03)**.
+* Evita módulos extras sem relação direta (mapa/GPS, notificações push ou cadastro de empresas) e facilita os testes e a demonstração.
 
 ### 2.3. O que entra e o que fica de fora no MVP
 
 * **Entra no MVP:**
-  * **US03:** visualizar saldo na área de benefícios; listar ofertas com parceiro, descrição, custo em pontos e condições; confirmar resgate com resumo; debitar pontos e atualizar estoque; gerar comprovante/código; consultar histórico de benefícios resgatados com situação (`DISPONIVEL` / `UTILIZADO` / `EXPIRADO` para cupom e `PAGAMENTO_PENDENTE` / `PAGAMENTO_CONFIRMADO` para cashback); avisar exatamente **quantos pontos faltam** quando o saldo for insuficiente.
-  * **US07:** listar campanhas temporárias com benefício, validade, condições e marcação clara de `ATIVA` ou `EXPIRADA`; permitir ligar/desligar a preferência de notificações do usuário e exibir avisos dentro do sistema respeitando essa preferência.
-  * **Carga inicial no banco:** usuário de demonstração, ofertas e campanhas já cadastrados via `data.sql`.
+  * **US01 (Coletas):** listar entregas validadas de PET (ponto, data, peso em kg, pontos e bônus), somar o total de PET entregue e permitir registrar uma nova entrega validada atualizando saldo e histórico.
+  * **US05 (Carteira):** exibir saldo de pontos, equivalente oficial em reais (100 pontos = R$ 2,00), regra transparente de cálculo (50 pontos por kg), atalho para benefícios e aviso quando o usuário estiver sem saldo.
+  * **US03 (Benefícios e Cashback):** listar ofertas com parceiro, descrição, condições e custo; validar saldo (avisando **quantos pontos faltam** se não tiver); confirmar resgate com resumo; atualizar saldo e estoque; gerar comprovante (`DISPONIVEL`/`UTILIZADO`/`EXPIRADO` para cupom e `PAGAMENTO_PENDENTE`/`PAGAMENTO_CONFIRMADO` para cashback); consultar histórico de resgates.
+  * **Carga inicial no banco:** usuário de demonstração, entregas iniciais e ofertas já cadastrados via `data.sql`.
 * **Fica de fora neste recorte (simplificações planejadas):**
-  * Transferência bancária real / API de PIX (cashback nasce como `PAGAMENTO_PENDENTE`).
-  * Aplicativo mobile nativo e envio real de e-mail, SMS ou push externo.
-  * Painel de cadastro de ofertas pelas empresas parceiras (US04).
+  * Transferência bancária real / integração PIX (cashback nasce como `PAGAMENTO_PENDENTE`).
+  * Mapa interativo com GPS (US02/US08), cadastro de ofertas por empresas (US04), ranking (US06) e notificações/campanhas (US07).
 
 ---
 
 ## 3. CRITÉRIOS DE ACEITAÇÃO EM GIVEN-WHEN-THEN (FIÉIS AO BACKLOG v3)
 
-Estes cenários servem de entrada direta para a **Fase RED** do TDD:
+Estes cenários alimentam diretamente a **Fase RED** do TDD:
 
-### 3.1. US03 — Resgate de Benefícios e Cashback (8 SP | Essencial)
+### 3.1. US01 — Registro e Histórico de Coletas (2 SP | Importante)
+
+* **CA01 (Caminho Feliz — Consultar Histórico e Total de PET):**
+  * **Dado que** o usuário possui duas entregas validadas (2,5 kg com 125 pontos + 25 bônus; e 1,8 kg com 90 pontos + 0 bônus),
+  * **Quando** ele consulta o histórico de coletas,
+  * **Então** o sistema retorna as duas entregas com data, peso, pontos e bônus e calcula o total entregue de **4,3 kg**.
+* **CA02 (Caminho Feliz — Registrar Nova Entrega Validada):**
+  * **Dado que** o usuário possui saldo de 1.000 pontos e entrega 2,0 kg de PET (50 pontos/kg = 100 pontos) sem bônus,
+  * **Quando** a entrega validada é registrada,
+  * **Então** a coleta é salva no histórico e o saldo do usuário passa para **1.100 pontos**.
+* **CA03 (Regra de Exceção — Peso Inválido):**
+  * **Dado que** é informada uma entrega com peso menor ou igual a zero,
+  * **Quando** o sistema tenta registrar a coleta,
+  * **Então** lança exceção de argumento inválido (`IllegalArgumentException`) e não altera o saldo.
+
+### 3.2. US05 — Consulta de Saldo e Carteira (3 SP | Essencial)
+
+* **CA01 (Caminho Feliz — Carteira com Saldo):**
+  * **Dado que** o usuário possui 1.250 pontos acumulados e a regra oficial é 100 pontos = R$ 2,00,
+  * **Quando** ele consulta a carteira,
+  * **Então** o sistema retorna `saldoPontos = 1250`, `equivalenteReais = 25.00`, `semSaldo = false` e o texto claro da regra de cálculo.
+* **CA02 (Caminho Alternativo — Carteira Sem Saldo):**
+  * **Dado que** o usuário possui 0 pontos,
+  * **Quando** ele consulta a carteira,
+  * **Então** o sistema retorna `saldoPontos = 0`, `equivalenteReais = 0.00`, `semSaldo = true` e uma mensagem convidando o usuário a entregar PET em um ponto de coleta.
+* **CA03 (Regra de Exceção — Usuário Inexistente):**
+  * **Dado que** é consultado um ID de usuário que não existe no banco,
+  * **Quando** o serviço busca a carteira,
+  * **Então** lança `RecursoNaoEncontradoExcecao`.
+
+### 3.3. US03 — Resgate de Benefícios e Cashback (8 SP | Essencial)
 
 * **CA01 (Caminho Feliz — Resgate de Cupom):**
   * **Dado que** o usuário possui 1.000 pontos e escolhe um cupom ativo com estoque 5 que custa 500 pontos,
   * **Quando** ele confirma o resgate,
-  * **Então** o saldo cai para 500 pontos, o estoque cai para 4, o resgate fica salvo com situação `DISPONIVEL` e um código de comprovante é devolvido.
-* **CA02 (Regra de Exceção — Saldo Insuficiente com Cálculo do que Falta):**
+  * **Então** o saldo cai para 500 pontos, o estoque cai para 4, o resgate fica salvo com situação `DISPONIVEL` e um código de comprovante único é devolvido.
+* **CA02 (Regra de Exceção — Saldo Insuficiente Informando Pontos Faltantes):**
   * **Dado que** o usuário possui 200 pontos e tenta resgatar uma oferta de 500 pontos,
   * **Quando** ele solicita o resgate,
   * **Então** o sistema lança `SaldoInsuficienteExcecao` informando que **faltam 300 pontos**, não desconta nada do saldo e não altera o estoque.
-* **CA03 (Regra de Exceção — Oferta Indisponível, Esgotada ou Vencida):**
-  * **Dado que** uma oferta está com estoque 0, inativa ou com data de validade vencida,
+* **CA03 (Regra de Exceção — Oferta Esgotada, Inativa ou Vencida):**
+  * **Dado que** uma oferta está com estoque 0, inativa ou com validade expirada,
   * **Quando** o usuário tenta resgatá-la,
   * **Então** o sistema lança `OfertaIndisponivelExcecao` e mantém o saldo do usuário inalterado.
 * **CA04 (Caminho Feliz — Solicitação de Cashback):**
-  * **Dado que** o usuário possui saldo suficiente e escolhe uma oferta de cashback informando a forma de recebimento (ex.: chave PIX),
+  * **Dado que** o usuário possui saldo suficiente e escolhe uma oferta de cashback informando a chave PIX,
   * **Quando** ele confirma o resgate,
-  * **Então** os pontos são descontados e o resgate é registrado com situação `PAGAMENTO_PENDENTE`.
-
-### 3.2. US07 — Notificações e Campanhas Temporárias (5 SP | Desejável)
-
-* **CA01 (Caminho Feliz — Identificação de Campanhas Ativas e Expiradas):**
-  * **Dado que** existem campanhas cadastradas com datas de término futuras e passadas,
-  * **Quando** o sistema lista as campanhas,
-  * **Então** as vigentes recebem situação `ATIVA` e as vencidas recebem situação `EXPIRADA`, trazendo benefício, período e condições.
-* **CA02 (Caminho Feliz — Notificações Ativadas):**
-  * **Dado que** o usuário está com `receberNotificacoes = true` e há campanhas ativas,
-  * **Quando** o sistema consulta os avisos do usuário,
-  * **Então** retorna apenas as campanhas ativas disponíveis.
-* **CA03 (Regra de Negócio — Preferência de Notificações Desativada):**
-  * **Dado que** o usuário desativou notificações (`receberNotificacoes = false`),
-  * **Quando** o sistema consulta os avisos do usuário,
-  * **Então** retorna lista vazia, respeitando a preferência configurada.
+  * **Então** os pontos são descontados e o resgate é salvo com situação `PAGAMENTO_PENDENTE`.
 
 ---
 
 ## 4. ARQUITETURA EM PORTUGUÊS E CONTRATOS DE API REST
 
-O sistema segue o **Monólito Modular em Camadas** definido na Sprint 4, com todos os pacotes e classes em português para facilitar a leitura de toda a equipe:
+Monólito Modular em Camadas (Java 21 + Spring Boot 3.3.5 + PostgreSQL + HTML/CSS/JS), 100% em português:
 
 ```text
 Projeto-Mandabaa/
 ├── docker-compose.yml              (PostgreSQL 15 no Docker)
 ├── pom.xml                         (Java 21, Spring Boot 3.3.5, JPA, JUnit 5, Mockito)
 ├── docs/
-│   └── backlog-sprint5.md          (Tabela oficial do Backlog v4)
+│   └── backlog-sprint5.md          (Tabela oficial do Backlog — 13 SP)
 └── src/
     ├── main/
     │   ├── java/com/mandabaa/
     │   │   ├── AplicacaoMandabaa.java
     │   │   ├── configuracao/       -> ConfiguracaoCors
     │   │   ├── comum/excecao/      -> SaldoInsuficienteExcecao, OfertaIndisponivelExcecao,
-    │   │   │                          ManipuladorGlobalDeExcecoes
+    │   │   │                          RecursoNaoEncontradoExcecao, ManipuladorGlobalDeExcecoes
     │   │   ├── usuarios/           -> Usuario, RepositorioUsuario
+    │   │   ├── coletas/            -> Coleta, RepositorioColeta, ColetaDTO,
+    │   │   │                          HistoricoColetasDTO, ServicoColeta (US01)
     │   │   ├── parceiros/          -> Oferta, RepositorioOferta
-    │   │   ├── carteira/           -> Resgate, RepositorioResgate, ServicoResgate,
-    │   │   │                          SolicitacaoResgateDTO, RespostaResgateDTO
-    │   │   └── engajamento/        -> Campanha, RepositorioCampanha, ServicoCampanha,
-    │   │                              CampanhaDTO
+    │   │   └── carteira/           -> Resgate, RepositorioResgate, CarteiraDTO,
+    │   │                              SolicitacaoResgateDTO, RespostaResgateDTO,
+    │   │                              ServicoCarteira (US05), ServicoResgate (US03)
     │   └── resources/
     │       ├── application.properties
     │       └── static/             -> index.html, estilo.css, script.js (base da Pessoa 5)
-    └── test/java/com/mandabaa/     -> ServicoResgateTest, ServicoCampanhaTest (Pessoa 4)
+    └── test/java/com/mandabaa/     -> ServicoResgateTest, ServicoCarteiraTest,
+                                       ServicoColetaTest (Pessoa 4)
 ```
 
 ### Contratos de API REST (JSON)
 
-| Funcionalidade | Rota | Exemplo de Retorno |
-| :--- | :--- | :--- |
-| Consultar carteira | `GET /api/carteira/{usuarioId}` | `{"usuarioId": 1, "saldoPontos": 1000, "equivalenteReais": 20.00, "receberNotificacoes": true}` |
-| Listar ofertas | `GET /api/ofertas` | Lista de ofertas com `parceiro`, `titulo`, `condicoes`, `tipo`, `custoPontos`, `estoque` |
-| Solicitar resgate | `POST /api/resgates` | `{"resgateId": 1, "situacao": "DISPONIVEL", "codigoComprovante": "MANDABAA-A1B2", "novoSaldo": 500}` |
-| Histórico de resgates | `GET /api/resgates/usuario/{usuarioId}` | Lista dos cupons e cashbacks já resgatados com sua `situacao` |
-| Listar campanhas | `GET /api/campanhas` | Lista com `titulo`, `condicoes`, `multiplicadorBonus`, `situacao` (`ATIVA`/`EXPIRADA`) |
-| Listar avisos do usuário | `GET /api/campanhas/notificacoes/{usuarioId}` | Campanhas ativas se `receberNotificacoes = true`, ou `[]` se `false` |
-| Alterar preferência | `PUT /api/usuarios/{usuarioId}/notificacoes` | `{"receberNotificacoes": false}` |
+| História | Funcionalidade | Rota |
+| :---: | :--- | :--- |
+| **US05** | Consultar carteira e saldo | `GET /api/carteira/{usuarioId}` |
+| **US01** | Consultar histórico de coletas | `GET /api/coletas/usuario/{usuarioId}` |
+| **US01** | Registrar nova entrega validada | `POST /api/coletas` |
+| **US03** | Listar ofertas disponíveis | `GET /api/ofertas` |
+| **US03** | Solicitar resgate (cupom ou cashback) | `POST /api/resgates` |
+| **US03** | Consultar benefícios já resgatados | `GET /api/resgates/usuario/{usuarioId}` |
 
 ---
 
 ## 5. DIVISÃO EQUILIBRADA ENTRE AS 5 PESSOAS
 
 * **Pessoa 1 — Arquitetura de Software, Controladores REST e Integração:**  
-  Monta e mantém a estrutura do Monólito Modular em Spring Boot, configura CORS e `ManipuladorGlobalDeExcecoes`, padroniza os DTOs, cria os **Controladores REST** (`ControladorCarteira`, `ControladorOferta`, `ControladorResgate`, `ControladorCampanha`) e garante que tudo integre limpo sem virar *Big Ball of Mud*.
-* **Pessoa 2 — Regra de Negócio da US03 (Backend — 8 SP):**  
-  Implementa e refatora a lógica completa de `ServicoResgate` (validações de saldo com cálculo de pontos faltantes, estoque/validade, geração de código de cupom e fluxo de cashback pendente) nas fases **GREEN** e **REFACTOR** do TDD.
-* **Pessoa 3 — Banco de Dados, Persistência e Regra de Negócio da US07 (5 SP):**  
-  Sobe o PostgreSQL no Docker, revisa entidades/repositórios, cria o `data.sql` com dados de demonstração e implementa/refatora a lógica da US07 em `ServicoCampanha` (campanhas ativas vs. expiradas e respeito às preferências de notificação) nas fases **GREEN** e **REFACTOR**.
+  Mantém a estrutura do Monólito Modular em Spring Boot, configura CORS e `ManipuladorGlobalDeExcecoes`, padroniza DTOs, implementa os **Controladores REST** (`ControladorCarteira`, `ControladorColeta`, `ControladorOferta`, `ControladorResgate`) e garante a integração limpa entre frontend, backend e banco.
+* **Pessoa 2 — Regra de Negócio da US03 (8 SP — Backend em TDD):**  
+  Implementa e refatora a lógica completa de `ServicoResgate` (validações de saldo com cálculo de pontos faltantes, estoque/validade, geração de comprovante e fluxo de cashback pendente) nas fases **GREEN** e **REFACTOR**.
+* **Pessoa 3 — Banco de Dados + Regras de Negócio da US01 e US05 (2 + 3 = 5 SP):**  
+  Sobe o PostgreSQL no Docker, revisa entidades/repositórios, cria o `data.sql` de demonstração e implementa/refatora `ServicoColeta` (US01) e `ServicoCarteira` (US05) nas fases **GREEN** e **REFACTOR**.
 * **Pessoa 4 — Requisitos, TDD (Fase RED) e Qualidade (QA):**  
-  Conduz a metodologia da **Sprint 5.1**: gera e revisa os testes unitários em JUnit 5 + Mockito (`ServicoResgateTest` e `ServicoCampanhaTest`), registra as evidências **RED**, valida **GREEN** e **REFACTOR**, gera os **Roteiros de Teste de Aceitação** e preenche os **Checklists de Aceite (Definition of Done)**.
+  Conduz o roteiro da **Sprint 5.1**: gera e roda os testes unitários **RED** (`ServicoResgateTest`, `ServicoCarteiraTest`, `ServicoColetaTest`) com JUnit 5 + Mockito, audita **GREEN** e **REFACTOR**, gera os **Roteiros de Teste de Aceitação** e preenche os **Checklists de Aceite (Definition of Done)**.
 * **Pessoa 5 — UI/UX, Aparência/Layout das Telas e Frontend Web:**  
-  Cuida de todo o visual e experiência de uso em `index.html`, `estilo.css` e `script.js` (paleta verde Mandabaa, telas de carteira, catálogo com condições, confirmação, comprovante, histórico de resgates, campanhas e chave de ativar/desativar notificações) e conduz a demonstração visual na homologação.
+  Personaliza toda a aparência visual fiel ao mockup verde do Mandabaa (`index.html`, `estilo.css`, `script.js`): **Minha Carteira + Histórico de Coletas** (US05 + US01), **Benefícios** com modais de confirmação/comprovante e **Meus Resgates** (US03), além de conduzir a apresentação visual na homologação.
 
 ---
 
@@ -156,107 +177,105 @@ Projeto-Mandabaa/
 ### 📅 DIA 1 — Arquitetura Base, Banco no Docker, Visual Inicial e Fase RED (US03)
 
 * **Pessoa 1 (Arquitetura):**
-  1. Estruturar o projeto Spring Boot com os pacotes em português (`configuracao`, `comum.excecao`, `usuarios`, `parceiros`, `carteira`, `engajamento`). *(Já concluído e compilando!)*
-  2. Alinhar os contratos JSON (Item 4) com todas as pessoas.
-  3. Criar a branch `develop` (ou orientar cada pessoa a trabalhar em sua branch) e revisar os primeiros pull requests.
-* **Pessoa 2 (Regra de Negócio US03):**
+  1. Estruturar o projeto Spring Boot com todos os pacotes e esqueletos em português (`configuracao`, `comum.excecao`, `usuarios`, `coletas`, `parceiros`, `carteira`). *(Já pronto e compilando!)*
+  2. Alinhar os contratos das 6 rotas REST (Item 4) com a equipe.
+  3. Orientar cada integrante a trabalhar em sua branch no Git para evitar conflitos.
+* **Pessoa 2 (US03 — 8 SP):**
   1. Clonar o repositório, abrir no IntelliJ e revisar `ServicoResgate`, `SolicitacaoResgateDTO` e `RespostaResgateDTO`.
-  2. Alinhar com a Pessoa 4 exatamente quais exceções e mensagens (`SaldoInsuficienteExcecao` com pontos faltantes e `OfertaIndisponivelExcecao`) serão esperadas nos testes.
-* **Pessoa 3 (Banco de Dados + US07):**
-  1. Executar `docker-compose up -d` para subir o PostgreSQL local e testar a conexão.
-  2. Revisar as entidades iniciais (`Usuario`, `Oferta`, `Resgate`, `Campanha`) e ajustar algum campo se precisar.
-  3. Começar a rascunhar o arquivo `src/main/resources/data.sql` com 1 usuário (1.000 pontos), 3 ofertas (cupom disponível, cashback e cupom esgotado) e 2 campanhas (1 ativa e 1 expirada).
+  2. Alinhar com a Pessoa 4 os 4 cenários de teste da US03 (incluindo o texto exato de quantos pontos faltam no erro de saldo insuficiente).
+* **Pessoa 3 (Banco + US01/US05):**
+  1. Rodar `docker-compose up -d` para subir o PostgreSQL local e conferir a conexão.
+  2. Revisar as entidades `Usuario`, `Coleta`, `Oferta` e `Resgate`.
+  3. Preparar o rascunho de `src/main/resources/data.sql` com: 1 usuário (Alex, 1.250 pontos), 2 coletas (2,5 kg e 1,8 kg) e 3 ofertas (cashback R$ 5, desconto 10% e oferta esgotada).
 * **Pessoa 4 (TDD / QA):**
-  1. Usar o **Prompt 1 (Fase RED)** com os critérios da **US03** (Item 3.1) para gerar `ServicoResgateTest.java`.
-  2. Revisar o código gerado (checar `@ExtendWith(MockitoExtension.class)`, mocks dos 3 repositórios e comentários `GIVEN / WHEN / THEN`).
-  3. Rodar o teste na IDE contra o esqueleto atual de `ServicoResgate` e **tirar print comprovando a falha vermelha (RED 🔴)**.
+  1. Usar o **Prompt 1 (Fase RED)** com os critérios da **US03** (Item 3.3) para gerar `ServicoResgateTest.java`.
+  2. Revisar o teste (checar `@ExtendWith(MockitoExtension.class)`, mocks e blocos `GIVEN / WHEN / THEN`).
+  3. Executar o teste contra o esqueleto atual de `ServicoResgate` e **salvar print comprovando a falha vermelha (RED 🔴)**.
 * **Pessoa 5 (Layout e Frontend):**
-  1. Abrir `src/main/resources/static/index.html`, `estilo.css` e `script.js` no navegador para conhecer a base inicial.
-  2. Desenhar os ajustes visuais desejados (tipografia, cores verdes alinhadas ao mockup, ícones, espaçamentos) e planejar onde vão ficar o **histórico de resgates** e o **botão de ligar/desligar notificações**.
+  1. Abrir `src/main/resources/static/index.html` no navegador para ver o esqueleto inicial.
+  2. Comparar com o mockup verde do grupo e planejar melhorias de visual (cards, ícones, cores, responsividade e visualização de saldo/coletas/benefícios).
 
 ---
 
-### 📅 DIA 2 — Fase GREEN (US03), Carga do Banco, Fase RED (US07) e Telas Principais
+### 📅 DIA 2 — Fase GREEN (US03), Carga do Banco, Fase RED (US05 e US01) e Telas Principais
 
 * **Pessoa 1 (Arquitetura e Controladores):**
-  1. Criar `ControladorCarteira` (`GET /api/carteira/{usuarioId}`) e `ControladorOferta` (`GET /api/ofertas`) conectados aos repositórios.
-  2. Garantir que o sistema sobe conectado ao Docker PostgreSQL sem erros.
+  1. Criar `ControladorCarteira` (`GET /api/carteira/{usuarioId}`) e `ControladorOferta` (`GET /api/ofertas`).
+  2. Garantir que a aplicação sobe conectada ao PostgreSQL no Docker sem erros.
 * **Pessoa 2 (US03 — Fase GREEN):**
-  1. Pegar a classe `ServicoResgateTest.java` aprovada pela Pessoa 4.
+  1. Receber `ServicoResgateTest.java` da Pessoa 4.
   2. Rodar o **Prompt 2 (Fase GREEN)** para implementar o código mínimo em `ServicoResgate.java`.
-  3. Executar os testes unitários na IDE até todos ficarem **verdes (GREEN 🟢)** e salvar o print + prompt usado.
-* **Pessoa 3 (Banco de Dados + US07):**
-  1. Finalizar `src/main/resources/data.sql` com os dados de demonstração e mudar `spring.sql.init.mode=always` no `application.properties`.
-  2. Testar a inicialização do Spring Boot conferindo no banco se o usuário, ofertas e campanhas foram gravados corretamente.
-  3. Alinhar com a Pessoa 4 a assinatura de `ServicoCampanha` para os testes da US07.
+  3. Executar os testes unitários até ficarem **100% verdes (GREEN 🟢)** e salvar print + prompt.
+* **Pessoa 3 (Banco + US01/US05):**
+  1. Finalizar `src/main/resources/data.sql` e ativar `spring.sql.init.mode=always` no `application.properties`.
+  2. Subir o Spring Boot e confirmar no banco que os dados de demonstração foram carregados.
+  3. Alinhar com a Pessoa 4 as assinaturas de `ServicoCarteira` e `ServicoColeta`.
 * **Pessoa 4 (TDD / QA):**
-  1. Conferir se a Pessoa 2 passou nos testes da US03 **sem alterar os testes**.
-  2. Usar o **Prompt 1 (Fase RED)** com os critérios da **US07** (Item 3.2) para gerar `ServicoCampanhaTest.java`.
-  3. Rodar o teste na IDE contra o esqueleto de `ServicoCampanha` e **registrar o print da falha vermelha (RED 🔴)**.
+  1. Auditar se a Pessoa 2 passou nos testes da US03 **sem alterar o arquivo de teste**.
+  2. Usar o **Prompt 1 (Fase RED)** para gerar `ServicoCarteiraTest.java` (US05) e `ServicoColetaTest.java` (US01).
+  3. Rodar ambos na IDE contra os esqueletos e **registrar o print das falhas vermelhas (RED 🔴)**.
 * **Pessoa 5 (Layout e Frontend):**
-  1. Refinar o visual da aba **Minha Carteira** e da aba **Benefícios** (mostrando parceiro, descrição, condições de uso, custo em pontos e distinção visual entre Cupom e Cashback).
-  2. Criar a área visual de **Meus Benefícios Resgatados** (exibindo código/comprovante e selos de situação: `DISPONIVEL`, `PAGAMENTO_PENDENTE`, etc.).
+  1. Personalizar o visual da aba **Minha Carteira** (card de saldo, valor em R$, texto da regra de cálculo, alerta de saldo zero) e do **Histórico de Coletas** logo abaixo (igual ao mockup!).
+  2. Refinar os cards da aba **Benefícios** (mostrando parceiro, descrição, condições, custo e selo de Cupom vs. Cashback).
 
 ---
 
-### 📅 DIA 3 — Fase REFACTOR (US03), Fase GREEN (US07) e Controladores Finais
+### 📅 DIA 3 — Fase REFACTOR (US03), Fase GREEN (US05 e US01) e Controladores Finais
 
 * **Pessoa 1 (Arquitetura e Controladores):**
   1. Criar `ControladorResgate` (`POST /api/resgates` e `GET /api/resgates/usuario/{usuarioId}`).
-  2. Criar `ControladorCampanha` (`GET /api/campanhas` e `GET /api/campanhas/notificacoes/{usuarioId}`) e o endpoint de preferência de notificação (`PUT /api/usuarios/{usuarioId}/notificacoes`).
-  3. Testar todas as rotas via navegador ou ferramenta REST (Postman/Insomnia) garantindo respostas JSON limpas.
+  2. Criar `ControladorColeta` (`GET /api/coletas/usuario/{usuarioId}` e `POST /api/coletas`).
+  3. Testar todas as 6 rotas retornando JSON real do banco.
 * **Pessoa 2 (US03 — Fase REFACTOR):**
-  1. Rodar o **Prompt 3 (Fase REFACTOR)** sobre `ServicoResgate.java` para extrair métodos privados (ex.: `validarOfertaDisponivel`, `validarSaldoSuficiente`, `gerarCodigoComprovante`).
-  2. Reexecutar `ServicoResgateTest` e comprovar que tudo continua **verde (REFACTOR 🔵)**.
-  3. Salvar a explicação das refatorações para o registro de IA.
-* **Pessoa 3 (US07 — Fase GREEN):**
-  1. Receber `ServicoCampanhaTest.java` da Pessoa 4.
-  2. Rodar o **Prompt 2 (Fase GREEN)** para implementar o mínimo em `ServicoCampanha.java` (classificação `ATIVA`/`EXPIRADA` por data e filtro de notificações conforme preferência do usuário).
-  3. Executar os testes e registrar o **GREEN 🟢**.
+  1. Rodar o **Prompt 3 (Fase REFACTOR)** sobre `ServicoResgate.java` para extrair validações em métodos privados claros (SRP).
+  2. Reexecutar `ServicoResgateTest` comprovando que continua **verde (REFACTOR 🔵)** e registrar a explicação das melhorias.
+* **Pessoa 3 (US05 e US01 — Fase GREEN):**
+  1. Receber `ServicoCarteiraTest` e `ServicoColetaTest` da Pessoa 4.
+  2. Rodar o **Prompt 2 (Fase GREEN)** para implementar o código mínimo em `ServicoCarteira.java` e `ServicoColeta.java`.
+  3. Executar os testes e comprovar o **GREEN 🟢**.
 * **Pessoa 4 (TDD / QA):**
-  1. Auditar a refatoração da US03 (confirmando zero regressão) e o GREEN da US07.
-  2. Organizar na pasta `docs/registros-ia/` os prompts, respostas e validações humanas coletados até aqui.
+  1. Auditar a refatoração da US03 e o GREEN de US05 e US01.
+  2. Guardar os prompts, respostas da IA e prints em `docs/registros-ia/`.
 * **Pessoa 5 (Layout e Frontend):**
-  1. Refinar os modais de **Confirmação de Resgate** (mostrando pontos a descontar, regras e campo de chave PIX quando for cashback) e de **Comprovante**.
-  2. Criar na aba **Campanhas** o controle de ligar/desligar notificações e o painel de avisos do usuário.
+  1. Refinar os modais de **Confirmação de Resgate** (com campo de chave PIX só para cashback) e de **Comprovante**.
+  2. Refinar a aba **Meus Resgates** exibindo código e selos coloridos (`DISPONIVEL`, `PAGAMENTO_PENDENTE`, `EXPIRADO`).
 
 ---
 
-### 📅 DIA 4 — Fase REFACTOR (US07), Integração Completa e Roteiros de Aceitação
+### 📅 DIA 4 — Fase REFACTOR (US05/US01), Integração Completa e Roteiros de Aceitação
 
 * **Pessoa 1 (Integração Geral):**
-  1. Testar junto com a Pessoa 5 todas as chamadas do `script.js` contra o backend real rodando na porta 8080.
-  2. Conferir tratamento de erros (ex.: saldo insuficiente retornando HTTP 400 com a mensagem exata de quantos pontos faltam) e corrigir qualquer divergência de campo JSON.
+  1. Testar junto com a Pessoa 5 todas as chamadas do `script.js` contra o backend real na porta 8080.
+  2. Validar o fluxo completo de erro (ex.: tentar resgatar sem pontos e ver na tela a mensagem exata *"Saldo insuficiente. Faltam X pontos"*).
 * **Pessoa 2 (Revisão US03):**
-  1. Testar o fluxo de ponta a ponta da US03 na tela (cupom, cashback, erro de saldo insuficiente, oferta esgotada) e ajustar qualquer detalhe de transação (`@Transactional`).
-* **Pessoa 3 (US07 — Fase REFACTOR + Banco):**
-  1. Rodar o **Prompt 3 (Fase REFACTOR)** sobre `ServicoCampanha.java`, reexecutar os testes e confirmar o **REFACTOR 🔵**.
-  2. Conferir diretamente no PostgreSQL se os resgates feitos pela tela estão sendo persistidos e se o saldo e o estoque atualizam corretamente.
+  1. Testar resgate de cupom, resgate de cashback, saldo insuficiente e oferta esgotada ponta a ponta, conferindo `@Transactional`.
+* **Pessoa 3 (US05/US01 — Fase REFACTOR + Banco):**
+  1. Rodar o **Prompt 3 (Fase REFACTOR)** em `ServicoCarteira.java` e `ServicoColeta.java`, reexecutar os testes e confirmar **REFACTOR 🔵**.
+  2. Conferir no PostgreSQL se saldo, estoque, coletas e resgates ficam salvos de forma consistente após testar na tela.
 * **Pessoa 4 (Roteiros de Aceitação e Checklists):**
-  1. Rodar o **Prompt 4** para gerar os **Roteiros de Teste de Aceitação** (em linguagem simples para o cliente/professora) da US03 e da US07 e salvar em `docs/roteiros-aceitacao/`.
+  1. Rodar o **Prompt 4** para gerar os **Roteiros de Teste de Aceitação** (em linguagem simples) da US03, US05 e US01 e salvar em `docs/roteiros-aceitacao/`.
   2. Preparar os **Checklists de Aceite (Definition of Done)** em `docs/checklists-aceite/`.
-* **Pessoa 5 (Conexão Frontend e Acabamento):**
-  1. Conectar 100% do `script.js` às rotas reais (carteira, ofertas, resgate, histórico de resgates, campanhas, avisos e preferência de notificação).
-  2. Polir responsividade (celular e computador), contraste de cores e mensagens amigáveis de aviso.
+* **Pessoa 5 (Acabamento Visual):**
+  1. Verificar se todas as telas consomem dados reais do backend (sem depender dos exemplos de fallback).
+  2. Polir responsividade, alinhamento e mensagens amigáveis.
 
 ---
 
 ### 📅 DIA 5 — Homologação (Sprint Review), Validação e Entrega Final
 
-* **Pessoa 1 (Build e Revisão Arquitetural):**
-  1. Executar `mvn clean test` e `mvn clean package` garantindo compilação limpa e 100% dos testes passando.
-  2. Verificar se o repositório está limpo, organizado e com todos os commits sincronizados na branch principal.
-* **Pessoa 2 e Pessoa 3 (Estabilidade e Banco Limpo):**
-  1. Reiniciar o container Docker com carga limpa (`data.sql`) pronta para a apresentação.
-  2. Apoiar correções pontuais caso algum cenário de aceitação encontre erro.
-* **Pessoa 4 (Sessão de Homologação — Sprint 5.1):**
-  1. Conduzir a demonstração em duas partes:
-     * **A. Verificação Técnica:** rodar `ServicoResgateTest` e `ServicoCampanhaTest` na IDE mostrando todos verdes.
-     * **B. Validação com o Cliente/PO:** executar passo a passo os Roteiros de Aceitação na interface (caminho feliz e erros).
-  2. Preencher os **Checklists de Aceite (Definition of Done)** marcando as histórias como `DONE`.
+* **Pessoa 1 (Build e Revisão Final):**
+  1. Rodar `mvn clean test` e `mvn clean package` confirmando 100% de compilação e testes verdes.
+  2. Conferir se todos os arquivos e documentos estão no GitHub na branch `main`.
+* **Pessoa 2 e Pessoa 3 (Banco Limpo e Apoio):**
+  1. Reiniciar o container Docker com o `data.sql` limpo pronto para a demonstração.
+  2. Apoiar qualquer ajuste rápido durante o ensaio.
+* **Pessoa 4 (Condução da Homologação — Sprint 5.1):**
+  1. Conduzir a demonstração nas duas fases da Sprint 5.1:
+     * **A. Verificação Técnica:** rodar `ServicoResgateTest`, `ServicoCarteiraTest` e `ServicoColetaTest` na IDE mostrando 100% verdes.
+     * **B. Validação com Cliente/PO:** executar os Roteiros de Aceitação na tela (caminho feliz e exceções).
+  2. Preencher os **Checklists de Aceite (Definition of Done)** marcando US01, US05 e US03 como `DONE`.
 * **Pessoa 5 (Apresentação Visual):**
-  1. Navegar pela interface demonstrando os fluxos completos (saldo, ofertas, confirmação, voucher, cashback pendente, histórico, campanhas ativas/expiradas e preferências de aviso).
-  2. Garantir o acabamento visual final e tirar prints das telas para o Notion.
+  1. Navegar pela interface mostrando o fluxo real completo (coletas $\rightarrow$ saldo $\rightarrow$ resgate $\rightarrow$ comprovante/histórico) e tirar prints para o Notion.
 
 ---
 
@@ -264,7 +283,7 @@ Projeto-Mandabaa/
 
 ### 🔴 Prompt 1 — Fase RED (Testes Unitários)
 > *"Atue como um especialista em QA e instrutor de Java com JUnit 5 e Mockito. Tenho a seguinte User Story e Critérios de Aceitação em Given-When-Then para a plataforma Mandabaa:*  
-> *User Story: [Colar US03 ou US07]*  
+> *User Story: [Colar US01, US05 ou US03]*  
 > *Critérios de Aceitação: [Colar os cenários do Item 3]*  
 > *Classes existentes no projeto: [Colar a assinatura do Servico e das Entidades]*  
 > *Solicitação:*  
@@ -290,14 +309,14 @@ Projeto-Mandabaa/
 > *3. Liste e explique detalhadamente quais refatorações foram realizadas e por que elas melhoram o código."*
 
 ### 📋 Prompt 4 — Roteiro de Aceitação para o Cliente
-> *"Atue como um Analista de Negócios e QA. Com base nos Critérios de Aceitação (Given-When-Then) da [US03 ou US07]:*  
+> *"Atue como um Analista de Negócios e QA. Com base nos Critérios de Aceitação (Given-When-Then) da [US01, US05 ou US03]:*  
 > *Solicitação: Gere um Roteiro de Teste de Aceitação simplificado, em linguagem não técnica, para demonstrarmos ao cliente na interface do Mandabaa. Inclua passos amigáveis de navegação, dados a informar e o resultado visual esperado para cada cenário de sucesso e erro."*
 
 ---
 
 ## 8. CHECKLIST DE ACEITE — DEFINITION OF DONE (DoD)
 
-Preencher uma tabela desta para **cada User Story testada** (US03 e US07):
+Preencher uma tabela desta para **cada User Story testada** (US01, US05 e US03):
 
 | Critério de Qualidade | Status | Evidência |
 | :--- | :---: | :--- |
@@ -309,7 +328,7 @@ Preencher uma tabela desta para **cada User Story testada** (US03 e US07):
 
 ## 9. ARTEFATOS OBRIGATÓRIOS NO REPOSITÓRIO (SPRINT 5 & 5.1)
 
-1. 📂 **Código do Teste de Unidade:** `src/test/java/com/mandabaa/...` (`ServicoResgateTest.java` e `ServicoCampanhaTest.java`).
+1. 📂 **Código do Teste de Unidade:** `src/test/java/com/mandabaa/...` (`ServicoResgateTest`, `ServicoCarteiraTest`, `ServicoColetaTest`).
 2. 📂 **Código da Aplicação:** `src/main/java/com/mandabaa/...` e `src/main/resources/static/...`.
 3. 📄 **Roteiro do Teste de Aceitação:** `docs/roteiros-aceitacao/` (um por User Story).
 4. 📄 **Checklist de Aceite (Definition of Done):** `docs/checklists-aceite/` (um por User Story).

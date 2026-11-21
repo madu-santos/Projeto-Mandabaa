@@ -1,6 +1,6 @@
 /*
  * ESTILO INICIAL DO MANDABAA (Dia 1):
- * A Pessoa 5 pode ajustar cores, fontes, espaçamentos e criar novos componentes visuais.
+ * A Pessoa 5 pode ajustar cores, fontes, espaçamentos e melhorar o visual das telas.
  */
 :root {
     --cor-primaria: #2d6a4f;
@@ -97,19 +97,19 @@ nav {
 
 .cartao-carteira {
     background: var(--cor-superficie);
-    padding: 2.5rem;
+    padding: 2rem;
     border-radius: var(--borda-arredondada);
     box-shadow: var(--sombra);
     text-align: center;
-    max-width: 450px;
-    margin: 0 auto;
+    max-width: 520px;
+    margin: 0 auto 2rem auto;
     border: 1px solid var(--cor-borda);
 }
 
 .cartao-carteira h2 {
     font-size: 1.1rem;
     color: var(--cor-texto-suave);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .saldo-destaque {
@@ -117,28 +117,99 @@ nav {
     align-items: baseline;
     justify-content: center;
     gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
 .saldo-destaque .pontos {
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     font-weight: 700;
     color: var(--cor-primaria);
 }
 
 .saldo-destaque .unidade {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     color: var(--cor-texto-suave);
 }
 
 .equivalente-reais {
     font-size: 1.1rem;
     color: var(--cor-texto-suave);
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .equivalente-reais strong {
     color: var(--cor-primaria-escura);
+}
+
+.regra-calculo {
+    font-size: 0.85rem;
+    color: var(--cor-texto-suave);
+    margin-bottom: 1.25rem;
+}
+
+.aviso-sem-saldo {
+    background-color: #fef3c7;
+    color: #92400e;
+    padding: 0.75rem 1rem;
+    border-radius: var(--borda-arredondada);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.oculto {
+    display: none !important;
+}
+
+.bloco-historico {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.cabecalho-historico {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.cabecalho-historico h2 {
+    font-size: 1.3rem;
+    color: var(--cor-primaria-escura);
+}
+
+.cabecalho-historico p {
+    color: var(--cor-texto-suave);
+    font-size: 0.95rem;
+}
+
+.lista-registros {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.linha-registro {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--borda-arredondada);
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.linha-registro .detalhe {
+    color: var(--cor-texto-suave);
+    font-size: 0.88rem;
+    margin-top: 0.2rem;
+}
+
+.linha-registro .valor-positivo {
+    color: var(--cor-primaria);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-align: right;
 }
 
 .botao-primario {
@@ -201,7 +272,7 @@ nav {
 }
 
 .cartao-item h3 {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     color: var(--cor-texto);
     margin-bottom: 0.25rem;
 }
@@ -209,14 +280,14 @@ nav {
 .cartao-item .parceiro {
     font-size: 0.9rem;
     color: var(--cor-texto-suave);
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
 }
 
 .cartao-item .etiqueta-pontos {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--cor-primaria);
-    margin-bottom: 1rem;
+    margin: 0.5rem 0 1rem 0;
 }
 
 .selo {
@@ -228,14 +299,39 @@ nav {
     text-transform: uppercase;
 }
 
-.selo-ativa {
+.selo-disponivel {
     background-color: #d1fae5;
     color: #065f46;
 }
 
-.selo-expirada {
+.selo-pendente {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.selo-expirado {
     background-color: #f1f5f9;
     color: #64748b;
+}
+
+.campo-formulario {
+    text-align: left;
+    margin-bottom: 1.25rem;
+}
+
+.campo-formulario label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.campo-formulario input {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 0.95rem;
 }
 
 /* Janelas (Modais) */
@@ -252,15 +348,11 @@ nav {
     z-index: 1000;
 }
 
-.fundo-modal.oculto {
-    display: none;
-}
-
 .cartao-modal {
     background: var(--cor-superficie);
     padding: 2rem;
     border-radius: var(--borda-arredondada);
-    max-width: 400px;
+    max-width: 420px;
     width: 90%;
     text-align: center;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
@@ -274,7 +366,7 @@ nav {
 
 .cartao-modal p {
     color: var(--cor-texto-suave);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .acoes-modal {
@@ -286,12 +378,12 @@ nav {
     background: #e8f5e9;
     color: var(--cor-primaria-escura);
     font-family: monospace;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     padding: 1rem;
     border-radius: var(--borda-arredondada);
     border: 2px dashed var(--cor-primaria);
-    margin: 1.5rem 0;
+    margin: 1.25rem 0;
     letter-spacing: 2px;
 }
 
@@ -311,7 +403,6 @@ nav {
     font-weight: 500;
     box-shadow: var(--sombra);
     z-index: 2000;
-    transition: opacity 0.3s;
 }
 
 .aviso-flutuante.sucesso {
@@ -320,8 +411,4 @@ nav {
 
 .aviso-flutuante.erro {
     background-color: #e11d48;
-}
-
-.aviso-flutuante.oculto {
-    display: none;
 }

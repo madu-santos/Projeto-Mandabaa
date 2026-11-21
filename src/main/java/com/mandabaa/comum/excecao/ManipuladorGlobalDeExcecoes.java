@@ -10,9 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Captura as exceções de negócio em UM lugar só e devolve sempre o mesmo formato de
- * resposta em JSON: {"status": "ERRO", "mensagem": "..."}.
- * Assim o frontend sabe exatamente o que esperar quando algo dá errado.
+ * Captura as exceções de negócio em UM lugar só e devolve sempre o mesmo formato JSON:
+ * {"status": "ERRO", "mensagem": "..."}.
  */
 @Slf4j
 @RestControllerAdvice
@@ -28,9 +27,13 @@ public class ManipuladorGlobalDeExcecoes {
         return respostaDeErro(HttpStatus.BAD_REQUEST, excecao.getMessage());
     }
 
+    @ExceptionHandler(RecursoNaoEncontradoExcecao.class)
+    public ResponseEntity<Map<String, Object>> tratarNaoEncontrado(RecursoNaoEncontradoExcecao excecao) {
+        return respostaDeErro(HttpStatus.NOT_FOUND, excecao.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> tratarErroInesperado(Exception excecao) {
-        // O detalhe técnico vai só para o log do servidor; o usuário não vê a pilha de erros.
         log.error("Erro inesperado no servidor", excecao);
         return respostaDeErro(HttpStatus.INTERNAL_SERVER_ERROR,
                 "Ocorreu um erro interno. Tente novamente em instantes.");

@@ -10,8 +10,8 @@
 <body>
     <!--
       ESQUELETO INICIAL DO FRONTEND (Dia 1):
-      A Pessoa 5 fica responsável por personalizar a aparência, o layout das telas
-      e completar os fluxos visuais (histórico de resgates, detalhes e preferências de avisos).
+      Alinhado às 3 histórias do MVP (US05 Carteira, US01 Histórico de Coletas e US03 Benefícios/Resgates).
+      A Pessoa 5 fica responsável por personalizar o layout, cores, tipografia e melhorar a experiência visual.
     -->
     <header class="barra-navegacao">
         <div class="marca">
@@ -21,12 +21,12 @@
         <nav>
             <button class="botao-aba ativa" onclick="mostrarAba('carteira')">Minha Carteira</button>
             <button class="botao-aba" onclick="mostrarAba('beneficios')">Benefícios</button>
-            <button class="botao-aba" onclick="mostrarAba('campanhas')">Campanhas</button>
+            <button class="botao-aba" onclick="mostrarAba('resgates')">Meus Resgates</button>
         </nav>
     </header>
 
     <main class="conteudo-principal">
-        <!-- Aba 1: Carteira e Saldo -->
+        <!-- Aba 1: Minha Carteira (US05) + Histórico de Coletas (US01) -->
         <section id="aba-carteira" class="aba-conteudo ativa">
             <div class="cartao-carteira">
                 <h2>Saldo Disponível</h2>
@@ -37,29 +37,48 @@
                 <div class="equivalente-reais">
                     Equivalente a <strong id="saldo-reais">R$ 0,00</strong>
                 </div>
-                <button class="botao-primario" onclick="mostrarAba('beneficios')">🎁 Trocar Pontos por Benefícios</button>
+                <p id="regra-calculo" class="regra-calculo">
+                    Cada 1 kg de PET validado vale 50 pontos • 100 pontos = R$ 2,00
+                </p>
+                <div id="aviso-sem-saldo" class="aviso-sem-saldo oculto">
+                    Você ainda não tem pontos. Entregue garrafas PET em um ponto de coleta para começar!
+                </div>
+                <button class="botao-primario" onclick="mostrarAba('beneficios')">🎁 Ver Benefícios</button>
+            </div>
+
+            <!-- Histórico de Coletas (US01) -->
+            <div class="bloco-historico">
+                <div class="cabecalho-historico">
+                    <div>
+                        <h2>Histórico de Coletas</h2>
+                        <p>Total de PET entregue: <strong id="total-pet-kg">0,0 kg</strong></p>
+                    </div>
+                </div>
+                <div id="lista-coletas" class="lista-registros">
+                    <!-- Entregas carregadas pelo script.js -->
+                </div>
             </div>
         </section>
 
-        <!-- Aba 2: Catálogo de Benefícios e Resgate (US03) -->
+        <!-- Aba 2: Catálogo de Benefícios e Cashback (US03) -->
         <section id="aba-beneficios" class="aba-conteudo">
             <div class="cabecalho-secao">
-                <h2>Catálogo de Benefícios e Cashback</h2>
-                <p>Troque seus pontos acumulados nas entregas de PET por vantagens reais.</p>
+                <h2>Benefícios Disponíveis</h2>
+                <p>Seu saldo atual: <strong id="saldo-area-beneficios">0 pontos</strong> — troque por descontos ou cashback.</p>
             </div>
             <div id="grade-ofertas" class="grade-cartoes">
                 <!-- Cartões de ofertas preenchidos pelo script.js -->
             </div>
         </section>
 
-        <!-- Aba 3: Campanhas e Avisos (US07) -->
-        <section id="aba-campanhas" class="aba-conteudo">
+        <!-- Aba 3: Meus Benefícios Resgatados (US03 - CA07, CA08 e CA09) -->
+        <section id="aba-resgates" class="aba-conteudo">
             <div class="cabecalho-secao">
-                <h2>Campanhas Temporárias e Avisos</h2>
-                <p>Acompanhe campanhas com bônus de pontos e gerencie seus avisos.</p>
+                <h2>Meus Benefícios Resgatados</h2>
+                <p>Consulte seus cupons disponíveis e acompanhe o andamento das solicitações de cashback.</p>
             </div>
-            <div id="grade-campanhas" class="grade-cartoes">
-                <!-- Cartões de campanhas preenchidos pelo script.js -->
+            <div id="lista-resgates" class="lista-registros">
+                <!-- Resgates preenchidos pelo script.js -->
             </div>
         </section>
     </main>
@@ -69,6 +88,10 @@
         <div class="cartao-modal">
             <h3>Confirmar Resgate</h3>
             <p id="texto-modal-resgate">Deseja resgatar esta oferta?</p>
+            <div id="campo-pix-container" class="campo-formulario oculto">
+                <label for="input-chave-pix">Forma de recebimento (Chave PIX):</label>
+                <input id="input-chave-pix" type="text" placeholder="Ex.: seuemail@exemplo.com">
+            </div>
             <div class="acoes-modal">
                 <button class="botao-secundario" onclick="fecharModalResgate()">Cancelar</button>
                 <button id="botao-confirmar-resgate" class="botao-primario">Confirmar</button>

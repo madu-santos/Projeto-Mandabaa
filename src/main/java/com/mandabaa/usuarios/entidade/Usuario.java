@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Pessoa que entrega PET e acumula pontos (módulo "Usuários e Acesso").
- * VERSÃO INICIAL do Dia 1: a Pessoa 3 (Banco de Dados) pode ajustar os campos.
+ * Pessoa que entrega garrafas PET e acumula pontos (módulo "Usuários").
+ * VERSÃO INICIAL do Dia 1: a Pessoa 3 (Banco de Dados) pode ajustar os campos se precisar.
  */
 @Entity
 @Table(name = "usuario")
@@ -32,12 +32,7 @@ public class Usuario {
     @Column(nullable = false)
     private String nome;
 
-    /** Pontos disponíveis para troca por benefícios (US03 e US05). */
+    /** Pontos acumulados disponíveis na carteira (US01, US05 e US03). */
     @Column(name = "saldo_pontos", nullable = false)
     private Integer saldoPontos;
-
-    /** Preferência de recebimento de avisos sobre campanhas temporárias (US07). */
-    @Column(name = "receber_notificacoes", nullable = false)
-    @Builder.Default
-    private Boolean receberNotificacoes = true;
 }
