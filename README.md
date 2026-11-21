@@ -199,9 +199,9 @@ Projeto-Mandabaa/
 
 ### 📅 DIA 2 — Fase GREEN (US03), Carga do Banco, Fase RED (US05 e US01) e Telas Principais
 
-* **Pessoa 1 (Arquitetura e Controladores):**
-  1. Criar `ControladorCarteira` (`GET /api/carteira/{usuarioId}`) e `ControladorOferta` (`GET /api/ofertas`).
-  2. Garantir que a aplicação sobe conectada ao PostgreSQL no Docker sem erros.
+* **Pessoa 1 (Arquitetura e Controladores — *já entregue!*):**
+  1. `ControladorCarteira` (`GET /api/carteira/{usuarioId}`) e `ControladorOferta` (`GET /api/ofertas`) já criados e compilando no repositório.
+  2. Apoiar a Pessoa 3 para garantir que a aplicação suba conectada ao PostgreSQL no Docker sem erros.
 * **Pessoa 2 (US03 — Fase GREEN):**
   1. Receber `ServicoResgateTest.java` da Pessoa 4.
   2. Rodar o **Prompt 2 (Fase GREEN)** para implementar o código mínimo em `ServicoResgate.java`.
@@ -222,10 +222,9 @@ Projeto-Mandabaa/
 
 ### 📅 DIA 3 — Fase REFACTOR (US03), Fase GREEN (US05 e US01) e Controladores Finais
 
-* **Pessoa 1 (Arquitetura e Controladores):**
-  1. Criar `ControladorResgate` (`POST /api/resgates` e `GET /api/resgates/usuario/{usuarioId}`).
-  2. Criar `ControladorColeta` (`GET /api/coletas/usuario/{usuarioId}` e `POST /api/coletas`).
-  3. Testar todas as 6 rotas retornando JSON real do banco.
+* **Pessoa 1 (Arquitetura e Controladores — *já entregue!*):**
+  1. `ControladorResgate` (`POST /api/resgates` e `GET /api/resgates/usuario/{usuarioId}`) e `ControladorColeta` (`GET /api/coletas/usuario/{usuarioId}` e `POST /api/coletas`) já criados e compilando no repositório.
+  2. Assim que as Pessoas 2 e 3 concluírem a fase GREEN, testar todas as 6 rotas retornando JSON real do banco.
 * **Pessoa 2 (US03 — Fase REFACTOR):**
   1. Rodar o **Prompt 3 (Fase REFACTOR)** sobre `ServicoResgate.java` para extrair validações em métodos privados claros (SRP).
   2. Reexecutar `ServicoResgateTest` comprovando que continua **verde (REFACTOR 🔵)** e registrar a explicação das melhorias.

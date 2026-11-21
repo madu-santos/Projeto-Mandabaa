@@ -27,6 +27,11 @@ public class ManipuladorGlobalDeExcecoes {
         return respostaDeErro(HttpStatus.BAD_REQUEST, excecao.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> tratarDadosInvalidos(IllegalArgumentException excecao) {
+        return respostaDeErro(HttpStatus.BAD_REQUEST, excecao.getMessage());
+    }
+
     @ExceptionHandler(RecursoNaoEncontradoExcecao.class)
     public ResponseEntity<Map<String, Object>> tratarNaoEncontrado(RecursoNaoEncontradoExcecao excecao) {
         return respostaDeErro(HttpStatus.NOT_FOUND, excecao.getMessage());
