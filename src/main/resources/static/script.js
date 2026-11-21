@@ -44,7 +44,8 @@ async function carregarCarteira() {
     try {
         const resposta = await fetch(`${ENDERECO_API}/carteira/1`);
         if (resposta.ok) {
-            dados = await resposta.json();
+            const texto = await resposta.text();
+            if (texto) dados = JSON.parse(texto);
         }
     } catch (erro) {
         // Usa dados de exemplo enquanto o backend não está rodando
@@ -77,7 +78,8 @@ async function carregarHistoricoColetas() {
     try {
         const resposta = await fetch(`${ENDERECO_API}/coletas/usuario/1`);
         if (resposta.ok) {
-            historico = await resposta.json();
+            const texto = await resposta.text();
+            if (texto) historico = JSON.parse(texto);
         }
     } catch (erro) {
         // Usa dados de exemplo enquanto o backend não está rodando
@@ -112,7 +114,13 @@ async function carregarOfertas() {
     try {
         const resposta = await fetch(`${ENDERECO_API}/ofertas`);
         if (resposta.ok) {
-            ofertas = await resposta.json();
+            const texto = await resposta.text();
+            if (texto) {
+                const listaBanco = JSON.parse(texto);
+                if (Array.isArray(listaBanco) && listaBanco.length > 0) {
+                    ofertas = listaBanco;
+                }
+            }
         }
     } catch (erro) {
         // Usa dados de exemplo enquanto o backend não está rodando
@@ -184,9 +192,10 @@ async function confirmarResgate() {
             })
         });
 
-        const dados = await resposta.json();
+        const texto = await resposta.text();
+        const dados = texto ? JSON.parse(texto) : null;
 
-        if (resposta.ok) {
+        if (resposta.ok && dados) {
             document.getElementById('descricao-comprovante').textContent =
                 dados.situacao === 'PAGAMENTO_PENDENTE'
                     ? 'Solicitação de cashback registrada! Situação: Pagamento Pendente.'
@@ -194,8 +203,10 @@ async function confirmarResgate() {
             document.getElementById('codigo-comprovante').textContent = dados.codigoComprovante || dados.situacao;
             document.getElementById('modal-comprovante').classList.remove('oculto');
             exibirAviso('Resgate realizado com sucesso!', 'sucesso');
+        } else if (resposta.ok && !dados) {
+            exibirAviso('Serviço de resgate ainda em fase RED do TDD (aguardando implementação da Pessoa 2).', 'erro');
         } else {
-            exibirAviso(dados.mensagem || 'Não foi possível concluir o resgate.', 'erro');
+            exibirAviso((dados && dados.mensagem) || 'Não foi possível concluir o resgate.', 'erro');
         }
     } catch (erro) {
         exibirAviso('Não foi possível conectar ao servidor do Mandabaa.', 'erro');
@@ -217,7 +228,8 @@ async function carregarMeusResgates() {
     try {
         const resposta = await fetch(`${ENDERECO_API}/resgates/usuario/1`);
         if (resposta.ok) {
-            resgates = await resposta.json();
+            const texto = await resposta.text();
+            if (texto) resgates = JSON.parse(texto);
         }
     } catch (erro) {
         // Usa dados de exemplo enquanto o backend não está rodando

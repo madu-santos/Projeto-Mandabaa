@@ -38,11 +38,11 @@ A tabela oficial também está salva no repositório em `docs/backlog-sprint5.md
 | **US08** | Consulta da Verificação dos Pontos de Coleta | Importante | 1 | Próxima Sprint (acompanha US02) |
 
 ### 2.2. Seleção da Sprint (Capacidade: 13 Story Points — 100% Prioritária!)
-$$\text{US03 (8 SP — Essencial)} + \text{US05 (3 SP — Essencial)} + \text{US01 (2 SP — Importante)} = \mathbf{13\text{ Story Points}}$$
+> **US03 (8 SP — Essencial) + US05 (3 SP — Essencial) + US01 (2 SP — Importante) = 13 Story Points**
 
 **Por que essa seleção é mais fácil e mais forte?**
 * Cumpre à risca a orientação da professora de implementar **primeiro as funcionalidades prioritárias** (sem puxar história *Desejável* na frente de *Essencial*).
-* Entrega exatamente o **fluxo das telas do mockup verde** que o grupo já apresentou: **Histórico de Coletas (US01) $\rightarrow$ Minha Carteira (US05) $\rightarrow$ Benefícios e Resgates (US03)**.
+* Entrega exatamente o **fluxo das telas do mockup verde** que o grupo já apresentou: **Histórico de Coletas (US01) → Minha Carteira (US05) → Benefícios e Resgates (US03)**.
 * Evita módulos extras sem relação direta (mapa/GPS, notificações push ou cadastro de empresas) e facilita os testes e a demonstração.
 
 ### 2.3. O que entra e o que fica de fora no MVP
@@ -122,7 +122,10 @@ Projeto-Mandabaa/
 ├── docker-compose.yml              (PostgreSQL 15 no Docker)
 ├── pom.xml                         (Java 21, Spring Boot 3.3.5, JPA, JUnit 5, Mockito)
 ├── docs/
-│   └── backlog-sprint5.md          (Tabela oficial do Backlog — 13 SP)
+│   ├── backlog-sprint5.md          (Tabela oficial do Backlog — 13 SP)
+│   ├── registros-ia/               (Prompts e revisões — pessoa1-arquitetura.md já pronto!)
+│   ├── roteiros-aceitacao/         (Roteiros da Pessoa 4)
+│   └── checklists-aceite/          (Termos DoD da Pessoa 4)
 └── src/
     ├── main/
     │   ├── java/com/mandabaa/
@@ -132,11 +135,13 @@ Projeto-Mandabaa/
     │   │   │                          RecursoNaoEncontradoExcecao, ManipuladorGlobalDeExcecoes
     │   │   ├── usuarios/           -> Usuario, RepositorioUsuario
     │   │   ├── coletas/            -> Coleta, RepositorioColeta, ColetaDTO,
-    │   │   │                          HistoricoColetasDTO, ServicoColeta (US01)
-    │   │   ├── parceiros/          -> Oferta, RepositorioOferta
+    │   │   │                          HistoricoColetasDTO, SolicitacaoColetaDTO,
+    │   │   │                          ServicoColeta (US01), ControladorColeta
+    │   │   ├── parceiros/          -> Oferta, RepositorioOferta, OfertaDTO, ControladorOferta
     │   │   └── carteira/           -> Resgate, RepositorioResgate, CarteiraDTO,
-    │   │                              SolicitacaoResgateDTO, RespostaResgateDTO,
-    │   │                              ServicoCarteira (US05), ServicoResgate (US03)
+    │   │                              SolicitacaoResgateDTO, RespostaResgateDTO, ItemResgateDTO,
+    │   │                              ServicoCarteira (US05), ServicoResgate (US03),
+    │   │                              ControladorCarteira, ControladorResgate
     │   └── resources/
     │       ├── application.properties
     │       └── static/             -> index.html, estilo.css, script.js (base da Pessoa 5)
@@ -274,7 +279,7 @@ Projeto-Mandabaa/
      * **B. Validação com Cliente/PO:** executar os Roteiros de Aceitação na tela (caminho feliz e exceções).
   2. Preencher os **Checklists de Aceite (Definition of Done)** marcando US01, US05 e US03 como `DONE`.
 * **Pessoa 5 (Apresentação Visual):**
-  1. Navegar pela interface mostrando o fluxo real completo (coletas $\rightarrow$ saldo $\rightarrow$ resgate $\rightarrow$ comprovante/histórico) e tirar prints para o Notion.
+  1. Navegar pela interface mostrando o fluxo real completo (coletas → saldo → resgate → comprovante/histórico) e tirar prints para o Notion.
 
 ---
 

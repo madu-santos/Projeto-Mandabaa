@@ -28,6 +28,6 @@ Conforme orientado na **Sprint 5**, esta tabela consolida o Backlog do Produto c
 | **Total da Sprint** | | | **13 SP** |
 
 ### Justificativa da Seleção
-* Respeita integralmente a regra da Sprint 5 de **implementar as funcionalidades prioritárias mais cedo** (duas histórias **Essenciais** + uma **Importante**, sem antecipar histórias *Desejáveis*), fechando exatamente os **13 Story Points** da capacidade da Sprint ($8 + 3 + 2 = 13$).
+* Respeita integralmente a regra da Sprint 5 de **implementar as funcionalidades prioritárias mais cedo** (duas histórias **Essenciais** + uma **Importante**, sem antecipar histórias *Desejáveis*), fechando exatamente os **13 Story Points** da capacidade da Sprint (8 + 3 + 2 = 13).
 * Entrega um **ciclo completo, real e demonstrável** do Mandabaa fiel aos mockups do grupo: o usuário acompanha suas entregas de PET e o total reciclado (**US01**), vê o saldo de pontos e o valor em reais na carteira (**US05**), e troca esses pontos por descontos ou cashback (**US03**).
 * Mantém o escopo enxuto e viável para 5 dias, deixando mapa/geolocalização (US02/US08), painel de empresas (US04) e gamificação/notificações (US06/US07) para as próximas sprints.
