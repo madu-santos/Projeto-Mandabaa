@@ -1,15 +1,19 @@
+/*
+ * ESTILO INICIAL DO MANDABAA (Dia 1):
+ * A Pessoa 5 pode ajustar cores, fontes, espaçamentos e criar novos componentes visuais.
+ */
 :root {
-    --primary: #2d6a4f;
-    --primary-light: #40916c;
-    --primary-dark: #1b4332;
-    --accent: #52b788;
-    --background: #f4f9f4;
-    --surface: #ffffff;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --border: #e2e8f0;
-    --radius: 12px;
-    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --cor-primaria: #2d6a4f;
+    --cor-primaria-clara: #40916c;
+    --cor-primaria-escura: #1b4332;
+    --cor-destaque: #52b788;
+    --cor-fundo: #f4f9f4;
+    --cor-superficie: #ffffff;
+    --cor-texto: #1e293b;
+    --cor-texto-suave: #64748b;
+    --cor-borda: #e2e8f0;
+    --borda-arredondada: 12px;
+    --sombra: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 * {
@@ -20,33 +24,33 @@
 }
 
 body {
-    background-color: var(--background);
-    color: var(--text-main);
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
     min-height: 100vh;
 }
 
-.navbar {
-    background-color: var(--surface);
+.barra-navegacao {
+    background-color: var(--cor-superficie);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--cor-borda);
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
 }
 
-.logo {
+.marca {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--primary);
+    color: var(--cor-primaria);
 }
 
-.logo .icon {
+.marca .icone {
     font-size: 1.8rem;
 }
 
-.logo h1 {
+.marca h1 {
     font-size: 1.4rem;
     font-weight: 700;
 }
@@ -56,28 +60,28 @@ nav {
     gap: 0.5rem;
 }
 
-.nav-btn {
+.botao-aba {
     background: transparent;
     border: none;
     padding: 0.6rem 1.2rem;
-    border-radius: var(--radius);
+    border-radius: var(--borda-arredondada);
     font-weight: 500;
     cursor: pointer;
-    color: var(--text-muted);
+    color: var(--cor-texto-suave);
     transition: all 0.2s;
 }
 
-.nav-btn:hover {
+.botao-aba:hover {
     background-color: #e8f5e9;
-    color: var(--primary);
+    color: var(--cor-primaria);
 }
 
-.nav-btn.active {
-    background-color: var(--primary);
+.botao-aba.ativa {
+    background-color: var(--cor-primaria);
     color: white;
 }
 
-.container {
+.conteudo-principal {
     max-width: 960px;
     margin: 2rem auto;
     padding: 0 1rem;
@@ -91,20 +95,20 @@ nav {
     display: block;
 }
 
-.card-carteira {
-    background: var(--surface);
+.cartao-carteira {
+    background: var(--cor-superficie);
     padding: 2.5rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    border-radius: var(--borda-arredondada);
+    box-shadow: var(--sombra);
     text-align: center;
     max-width: 450px;
     margin: 0 auto;
-    border: 1px solid var(--border);
+    border: 1px solid var(--cor-borda);
 }
 
-.card-carteira h2 {
+.cartao-carteira h2 {
     font-size: 1.1rem;
-    color: var(--text-muted);
+    color: var(--cor-texto-suave);
     margin-bottom: 1rem;
 }
 
@@ -119,30 +123,30 @@ nav {
 .saldo-destaque .pontos {
     font-size: 3.5rem;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--cor-primaria);
 }
 
 .saldo-destaque .unidade {
     font-size: 1.2rem;
-    color: var(--text-muted);
+    color: var(--cor-texto-suave);
 }
 
 .equivalente-reais {
     font-size: 1.1rem;
-    color: var(--text-muted);
+    color: var(--cor-texto-suave);
     margin-bottom: 1.5rem;
 }
 
 .equivalente-reais strong {
-    color: var(--primary-dark);
+    color: var(--cor-primaria-escura);
 }
 
-.btn-primary {
-    background-color: var(--primary);
+.botao-primario {
+    background-color: var(--cor-primaria);
     color: white;
     border: none;
     padding: 0.8rem 1.5rem;
-    border-radius: var(--radius);
+    border-radius: var(--borda-arredondada);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -150,72 +154,72 @@ nav {
     width: 100%;
 }
 
-.btn-primary:hover {
-    background-color: var(--primary-dark);
+.botao-primario:hover {
+    background-color: var(--cor-primaria-escura);
 }
 
-.btn-secondary {
+.botao-secundario {
     background-color: #e2e8f0;
-    color: var(--text-main);
+    color: var(--cor-texto);
     border: none;
     padding: 0.8rem 1.5rem;
-    border-radius: var(--radius);
+    border-radius: var(--borda-arredondada);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
 }
 
-.secao-header {
+.cabecalho-secao {
     margin-bottom: 1.5rem;
 }
 
-.secao-header h2 {
+.cabecalho-secao h2 {
     font-size: 1.5rem;
-    color: var(--primary-dark);
+    color: var(--cor-primaria-escura);
     margin-bottom: 0.25rem;
 }
 
-.secao-header p {
-    color: var(--text-muted);
+.cabecalho-secao p {
+    color: var(--cor-texto-suave);
 }
 
-.grid-ofertas, .grid-campanhas {
+.grade-cartoes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
 }
 
-.card-oferta, .card-campanha {
-    background: var(--surface);
-    border-radius: var(--radius);
+.cartao-item {
+    background: var(--cor-superficie);
+    border-radius: var(--borda-arredondada);
     padding: 1.5rem;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
+    border: 1px solid var(--cor-borda);
+    box-shadow: var(--sombra);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.card-oferta h3, .card-campanha h3 {
+.cartao-item h3 {
     font-size: 1.2rem;
-    color: var(--text-main);
+    color: var(--cor-texto);
     margin-bottom: 0.25rem;
 }
 
-.card-oferta .parceiro {
+.cartao-item .parceiro {
     font-size: 0.9rem;
-    color: var(--text-muted);
+    color: var(--cor-texto-suave);
     margin-bottom: 1rem;
 }
 
-.card-oferta .pontos-tag {
+.cartao-item .etiqueta-pontos {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--cor-primaria);
     margin-bottom: 1rem;
 }
 
-.badge {
+.selo {
     display: inline-block;
     padding: 0.25rem 0.6rem;
     border-radius: 9999px;
@@ -224,18 +228,18 @@ nav {
     text-transform: uppercase;
 }
 
-.badge-ativa {
+.selo-ativa {
     background-color: #d1fae5;
     color: #065f46;
 }
 
-.badge-expirada {
+.selo-expirada {
     background-color: #f1f5f9;
     color: #64748b;
 }
 
-/* Modais */
-.modal-overlay {
+/* Janelas (Modais) */
+.fundo-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -248,45 +252,45 @@ nav {
     z-index: 1000;
 }
 
-.modal-overlay.oculto {
+.fundo-modal.oculto {
     display: none;
 }
 
-.modal-card {
-    background: var(--surface);
+.cartao-modal {
+    background: var(--cor-superficie);
     padding: 2rem;
-    border-radius: var(--radius);
+    border-radius: var(--borda-arredondada);
     max-width: 400px;
     width: 90%;
     text-align: center;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 }
 
-.modal-card h3 {
+.cartao-modal h3 {
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
-    color: var(--primary-dark);
+    color: var(--cor-primaria-escura);
 }
 
-.modal-card p {
-    color: var(--text-muted);
+.cartao-modal p {
+    color: var(--cor-texto-suave);
     margin-bottom: 1.5rem;
 }
 
-.modal-acoes {
+.acoes-modal {
     display: flex;
     gap: 1rem;
 }
 
-.codigo-box {
+.caixa-codigo {
     background: #e8f5e9;
-    color: var(--primary-dark);
+    color: var(--cor-primaria-escura);
     font-family: monospace;
     font-size: 1.5rem;
     font-weight: 700;
     padding: 1rem;
-    border-radius: var(--radius);
-    border: 2px dashed var(--primary);
+    border-radius: var(--borda-arredondada);
+    border: 2px dashed var(--cor-primaria);
     margin: 1.5rem 0;
     letter-spacing: 2px;
 }
@@ -296,28 +300,28 @@ nav {
     margin-bottom: 0.5rem;
 }
 
-/* Toast */
-.toast {
+/* Aviso flutuante */
+.aviso-flutuante {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
     padding: 1rem 1.5rem;
-    border-radius: var(--radius);
+    border-radius: var(--borda-arredondada);
     color: white;
     font-weight: 500;
-    box-shadow: var(--shadow);
+    box-shadow: var(--sombra);
     z-index: 2000;
     transition: opacity 0.3s;
 }
 
-.toast.sucesso {
-    background-color: var(--primary);
+.aviso-flutuante.sucesso {
+    background-color: var(--cor-primaria);
 }
 
-.toast.erro {
+.aviso-flutuante.erro {
     background-color: #e11d48;
 }
 
-.toast.oculto {
+.aviso-flutuante.oculto {
     display: none;
 }
