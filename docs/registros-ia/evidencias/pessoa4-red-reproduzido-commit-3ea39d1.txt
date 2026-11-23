@@ -1,0 +1,25 @@
+# EVIDENCIA - RED reproduzido a partir do Git (Pessoa 4 / QA)
+# Data da execucao: 2026-11-23 | JDK 21.0.9 | Maven 3.9.16
+# Estado executado: commit 3ea39d1 (testes + esqueletos dos servicos), numa copia temporaria (git worktree) removida depois.
+# Comando: mvn -B test
+
+[INFO] Running com.mandabaa.carteira.servico.ServicoCarteiraTest
+Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 1.181 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoCarteiraTest
+com.mandabaa.carteira.servico.ServicoCarteiraTest.deveConsultarCarteiraSemSaldoEExibirAviso -- Time elapsed: 1.104 s <<< FAILURE!
+com.mandabaa.carteira.servico.ServicoCarteiraTest.deveLancarExcecaoQuandoUsuarioNaoExistir -- Time elapsed: 0.008 s <<< FAILURE!
+com.mandabaa.carteira.servico.ServicoCarteiraTest.deveConsultarCarteiraComSaldoECalcularEquivalenteEmReais -- Time elapsed: 0.004 s <<< FAILURE!
+[INFO] Running com.mandabaa.carteira.servico.ServicoResgateTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.156 s -- in com.mandabaa.carteira.servico.ServicoResgateTest
+[INFO] Running com.mandabaa.coletas.servico.ServicoColetaTest
+Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.052 s <<< FAILURE! -- in com.mandabaa.coletas.servico.ServicoColetaTest
+com.mandabaa.coletas.servico.ServicoColetaTest.deveRegistrarNovaEntregaValidadaEAtualizarSaldo -- Time elapsed: 0.041 s <<< FAILURE!
+com.mandabaa.coletas.servico.ServicoColetaTest.deveLancarExcecaoQuandoPesoMenorOuIgualAZero -- Time elapsed: 0.003 s <<< FAILURE!
+com.mandabaa.coletas.servico.ServicoColetaTest.deveConsultarHistoricoECalcularTotalPetEntregue -- Time elapsed: 0.005 s <<< FAILURE!
+ServicoCarteiraTest.deveConsultarCarteiraComSaldoECalcularEquivalenteEmReais:50 expected: not <null>
+ServicoCarteiraTest.deveConsultarCarteiraSemSaldoEExibirAviso:78 expected: not <null>
+ServicoCarteiraTest.deveLancarExcecaoQuandoUsuarioNaoExistir:95 Expected com.mandabaa.comum.excecao.RecursoNaoEncontradoExcecao to be thrown, but nothing was thrown.
+ServicoColetaTest.deveConsultarHistoricoECalcularTotalPetEntregue:83 expected: not <null>
+ServicoColetaTest.deveLancarExcecaoQuandoPesoMenorOuIgualAZero:141 Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
+ServicoColetaTest.deveRegistrarNovaEntregaValidadaEAtualizarSaldo:122 expected: not <null>
+Tests run: 10, Failures: 6, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE

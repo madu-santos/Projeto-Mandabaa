@@ -1,0 +1,85 @@
+# EVIDENCIA - SIMULACAO DIDATICA de defeitos (mutacoes) em COPIA ISOLADA (Pessoa 4 / QA)
+# Data: 2026-11-23 | O codigo de producao do projeto NAO foi alterado.
+# Cada mutacao quebra UMA regra de negocio na copia e roda a suite (51 testes).
+# Objetivo: provar que os testes FALHAM quando a regra esta errada.
+
+=== MUTACAO: M1 resgate nao baixa estoque (US03 CA01)
+ServicoResgateComplementarTest.deveDebitarPontosEGuardarChavePixNoCashback:304 expected: <9> but was: <10>
+ServicoResgateComplementarTest.deveGerarCodigosDeComprovanteDiferentesEmResgatesDiferentes:144 expected: <3> but was: <5>
+ServicoResgateComplementarTest.devePermitirResgateQuandoSaldoForExatamenteOCusto:183 expected: <0> but was: <1>
+ServicoResgateTest.deveRealizarResgateDeCupomComSucesso:71 expected: <4> but was: <5>
+Tests run: 19, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.342 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.029 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateTest
+Tests run: 51, Failures: 4, Errors: 0, Skipped: 0
+=== MUTACAO: M2 oferta vencida aceita (US03 CA03)
+ServicoResgateComplementarTest.deveLancarExcecaoQuandoOfertaVencida:237 Unexpected exception type thrown, expected: <com.mandabaa.comum.excecao.OfertaIndisponivelExcecao> but was: <java.lang.NullPointerException>
+Tests run: 19, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.343 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+Tests run: 51, Failures: 1, Errors: 0, Skipped: 0
+=== MUTACAO: M3 oferta inativa aceita (US03 CA03)
+ServicoResgateComplementarTest.deveLancarExcecaoQuandoOfertaInativa:217 Unexpected exception type thrown, expected: <com.mandabaa.comum.excecao.OfertaIndisponivelExcecao> but was: <java.lang.NullPointerException>
+Tests run: 19, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.292 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+Tests run: 51, Failures: 1, Errors: 0, Skipped: 0
+=== MUTACAO: M4 pontos faltantes errado (US03 CA02)
+ServicoResgateComplementarTest.deveInformarMensagemExataDePontosFaltantesESemGravarNada:162 expected: <Saldo insuficiente. Faltam 300 pontos.> but was: <Saldo insuficiente. Faltam 500 pontos.>
+ServicoResgateTest.deveLancarExcecaoQuandoSaldoInsuficienteInformandoPontosFaltantes:97 expected: <true> but was: <false>
+Tests run: 19, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.306 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.027 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateTest
+Tests run: 51, Failures: 2, Errors: 0, Skipped: 0
+=== MUTACAO: M5 cashback sem PAGAMENTO_PENDENTE (US03 CA04)
+ServicoResgateComplementarTest.deveDebitarPontosEGuardarChavePixNoCashback:300 expected: <PAGAMENTO_PENDENTE> but was: <DISPONIVEL>
+ServicoResgateTest.deveRealizarResgateDeCashback:150 expected: <PAGAMENTO_PENDENTE> but was: <DISPONIVEL>
+Tests run: 19, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.340 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.036 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateTest
+Tests run: 51, Failures: 2, Errors: 0, Skipped: 0
+=== MUTACAO: M6 cashback sem PIX aceito (US03 CA04)
+ServicoResgateComplementarTest.deveRecusarCashbackSemChavePix:320 Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+Tests run: 19, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.396 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+Tests run: 51, Failures: 3, Errors: 0, Skipped: 0
+=== MUTACAO: M7 resgate nao debita pontos (US03 CA01)
+ServicoResgateComplementarTest.deveDebitarPontosEGuardarChavePixNoCashback:303 expected: <200> but was: <1000>
+ServicoResgateComplementarTest.deveGerarCodigosDeComprovanteDiferentesEmResgatesDiferentes:143 expected: <1000> but was: <2000>
+ServicoResgateComplementarTest.devePermitirResgateQuandoOfertaVenceHoje:262 expected: <500> but was: <1000>
+ServicoResgateComplementarTest.devePermitirResgateQuandoSaldoForExatamenteOCusto:181 expected: <0> but was: <500>
+ServicoResgateTest.deveRealizarResgateDeCashback:149 expected: <200> but was: <1000>
+ServicoResgateTest.deveRealizarResgateDeCupomComSucesso:69 expected: <500> but was: <1000>
+Tests run: 19, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 0.349 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.034 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoResgateTest
+Tests run: 51, Failures: 6, Errors: 0, Skipped: 0
+=== MUTACAO: M8 bonus ignorado no saldo (US01 CA02)
+ServicoColetaComplementarTest.deveSomarBonusAoSaldoDoUsuario:150 expected: <1125> but was: <1100>
+Tests run: 11, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.152 s <<< FAILURE! -- in com.mandabaa.coletas.servico.ServicoColetaComplementarTest
+Tests run: 51, Failures: 1, Errors: 0, Skipped: 0
+=== MUTACAO: M9 peso zero aceito (US01 CA03)
+ServicoColetaComplementarTest.deveManterSaldoIgualQuandoPesoInvalido:226 Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+ServicoColetaTest.deveLancarExcecaoQuandoPesoMenorOuIgualAZero:141 Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <com.mandabaa.comum.excecao.RecursoNaoEncontradoExcecao>
+Tests run: 11, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.164 s <<< FAILURE! -- in com.mandabaa.coletas.servico.ServicoColetaComplementarTest
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.018 s <<< FAILURE! -- in com.mandabaa.coletas.servico.ServicoColetaTest
+Tests run: 51, Failures: 2, Errors: 0, Skipped: 0
+=== MUTACAO: M10 regra 10 pontos/kg (US01 CA02)
+ServicoColetaComplementarTest.deveCalcularCinquentaPontosPorKg:183 expected: <90> but was: <18>
+ServicoColetaComplementarTest.deveGravarColetaValidadaComDadosCorretos:132 expected: <100> but was: <20>
+ServicoColetaComplementarTest.deveSomarBonusAoSaldoDoUsuario:148 expected: <100> but was: <20>
+ServicoColetaComplementarTest.deveTratarBonusNuloOuNegativoComoZero:168 expected: <1200> but was: <1040>
+ServicoColetaTest.deveRegistrarNovaEntregaValidadaEAtualizarSaldo:126 expected: <100> but was: <20>
+Tests run: 11, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 0.168 s <<< FAILURE! -- in com.mandabaa.coletas.servico.ServicoColetaComplementarTest
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.018 s <<< FAILURE! -- in com.mandabaa.coletas.servico.ServicoColetaTest
+Tests run: 51, Failures: 5, Errors: 0, Skipped: 0
+=== MUTACAO: M11 R$ 0,20 por ponto (US05 CA01)
+ServicoCarteiraComplementarTest.deveConverterPontosEmReaisNaRegraOficial:65 expected: <0.02> but was: <0.20>
+ServicoCarteiraComplementarTest.deveConverterPontosEmReaisNaRegraOficial:65 expected: <1.00> but was: <10.00>
+ServicoCarteiraComplementarTest.deveConverterPontosEmReaisNaRegraOficial:65 expected: <1.98> but was: <19.80>
+ServicoCarteiraComplementarTest.deveConverterPontosEmReaisNaRegraOficial:65 expected: <1999.98> but was: <19999.80>
+ServicoCarteiraComplementarTest.deveConverterPontosEmReaisNaRegraOficial:65 expected: <2.00> but was: <20.00>
+ServicoCarteiraComplementarTest.deveConverterPontosEmReaisNaRegraOficial:65 expected: <25.00> but was: <250.00>
+ServicoCarteiraTest.deveConsultarCarteiraComSaldoECalcularEquivalenteEmReais:54 expected: <25.00> but was: <250.00>
+Tests run: 11, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 1.895 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoCarteiraComplementarTest
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.042 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoCarteiraTest
+Tests run: 51, Failures: 7, Errors: 0, Skipped: 0
+=== MUTACAO: M12 semSaldo sempre falso (US05 CA02)
+ServicoCarteiraComplementarTest.deveOrientarUsuarioSemSaldoAEntregarPet:80 expected: <true> but was: <false>
+ServicoCarteiraComplementarTest.deveTratarSaldoNuloComoZero:99 expected: <true> but was: <false>
+ServicoCarteiraTest.deveConsultarCarteiraSemSaldoEExibirAviso:82 expected: <true> but was: <false>
+Tests run: 11, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 2.097 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoCarteiraComplementarTest
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.049 s <<< FAILURE! -- in com.mandabaa.carteira.servico.ServicoCarteiraTest
+Tests run: 51, Failures: 3, Errors: 0, Skipped: 0
+=== FIM
