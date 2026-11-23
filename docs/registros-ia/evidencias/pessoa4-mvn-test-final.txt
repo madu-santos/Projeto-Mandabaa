@@ -1,0 +1,18 @@
+# EVIDENCIA - mvn test (estado final com testes complementares)
+# Data: 2026-11-23 | JDK 21.0.9 | Maven 3.9.16 | Spring Boot 3.3.5
+
+[INFO] Running com.mandabaa.carteira.servico.ServicoCarteiraComplementarTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.321 s -- in com.mandabaa.carteira.servico.ServicoCarteiraComplementarTest
+[INFO] Running com.mandabaa.carteira.servico.ServicoCarteiraTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.mandabaa.carteira.servico.ServicoCarteiraTest
+[INFO] Running com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.205 s -- in com.mandabaa.carteira.servico.ServicoResgateComplementarTest
+[INFO] Running com.mandabaa.carteira.servico.ServicoResgateTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.mandabaa.carteira.servico.ServicoResgateTest
+[INFO] Running com.mandabaa.coletas.servico.ServicoColetaComplementarTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.084 s -- in com.mandabaa.coletas.servico.ServicoColetaComplementarTest
+[INFO] Running com.mandabaa.coletas.servico.ServicoColetaTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.mandabaa.coletas.servico.ServicoColetaTest
+[INFO] Tests run: 51, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Finished at: 2026-11-23T11:36:02-03:00
