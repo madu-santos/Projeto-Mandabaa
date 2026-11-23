@@ -1,19 +1,178 @@
 /*
- * SCRIPT FRONTEND — Mandabaa (Pessoa 5 — UI/UX, Sprint 5.1)
- * Conecta as telas às rotas REST das 3 histórias do MVP:
- *   US05 — Consulta de Saldo e Carteira
- *   US01 — Histórico e Registro de Coletas de PET
- *   US03 — Benefícios, Resgates e Cashback
+ * SCRIPT FRONTEND — Mandabaa (Sprint 5 & 5.1)
+ * Inclui:
+ *   - Módulo de Autenticação (Entrada, Login, Cadastro e Logout)
+ *   - US05: Consulta de Saldo e Carteira
+ *   - US01: Histórico e Registro de Coletas de PET
+ *   - US03: Benefícios, Resgates e Cashback
  */
 
 const ENDERECO_API = window.location.protocol.startsWith('http')
     ? `${window.location.origin}/api`
     : 'http://localhost:8088/api';
-const USUARIO_ID   = 1;
+
+const CHAVE_SESSAO = 'mandabaa_usuario_sessao';
 let ofertaSelecionada = null;
 
 /* ================================================================
-   NAVEGAÇÃO ENTRE ABAS
+   GERENCIAMENTO DE SESSÃO / USUÁRIO ATIVO
+   ================================================================ */
+function obterUsuarioLogado() {
+    try {
+        const dados = sessionStorage.getItem(CHAVE_SESSAO);
+        return dados ? JSON.parse(dados) : null;
+    } catch (_) {
+        return null;
+    }
+}
+
+function salvarSessao(usuario) {
+    sessionStorage.setItem(CHAVE_SESSAO, JSON.stringify(usuario));
+}
+
+function limparSessao() {
+    sessionStorage.removeItem(CHAVE_SESSAO);
+}
+
+function obterUsuarioId() {
+    const usuario = obterUsuarioLogado();
+    return usuario ? usuario.usuarioId : 1;
+}
+
+/* ================================================================
+   CONTROLE DE TELAS (VISITANTE vs. LOGADO)
+   ================================================================ */
+function aplicarEstadoSessao() {
+    const usuario = obterUsuarioLogado();
+
+    const secaoVisitante = document.getElementById('secao-visitante');
+    const secaoLogado = document.getElementById('secao-logado');
+    const navLogado = document.getElementById('nav-logado');
+    const acoesDeslogado = document.getElementById('acoes-deslogado');
+    const acoesLogado = document.getElementById('acoes-logado');
+
+    if (usuario) {
+        // Usuário ESTÁ autenticado
+        secaoVisitante.classList.add('oculto');
+        secaoLogado.classList.remove('oculto');
+        navLogado.classList.remove('oculto');
+        acoesDeslogado.classList.add('oculto');
+        acoesLogado.classList.remove('oculto');
+
+        // Atualiza elementos visuais com dados do usuário
+        document.getElementById('header-nome-usuario').textContent = usuario.nome || 'Reciclador';
+        document.getElementById('carteira-usuario-chip').textContent = `👤 ${usuario.nome || 'Reciclador'}`;
+
+        // Carrega dados da conta
+        mostrarAba('carteira');
+    } else {
+        // Usuário NÃO está autenticado (mostrar tela inicial pública)
+        secaoVisitante.classList.remove('oculto');
+        secaoLogado.classList.add('oculto');
+        navLogado.classList.add('oculto');
+        acoesDeslogado.classList.remove('oculto');
+        acoesLogado.classList.add('oculto');
+
+        mostrarVisaoVisitante('inicio');
+    }
+}
+
+function mostrarVisaoVisitante(visao) {
+    document.querySelectorAll('.visao-visitante').forEach(v => v.classList.add('oculto'));
+    const alvo = document.getElementById(`visao-${visao}`);
+    if (alvo) alvo.classList.remove('oculto');
+}
+
+function irParaInicio() {
+    const usuario = obterUsuarioLogado();
+    if (usuario) {
+        mostrarAba('carteira');
+    } else {
+        mostrarVisaoVisitante('inicio');
+    }
+}
+
+/* ================================================================
+   FLUXO DE AUTENTICAÇÃO (LOGIN, CADASTRO, LOGOUT)
+   ================================================================ */
+async function executarLogin(evento) {
+    if (evento) evento.preventDefault();
+
+    const login = document.getElementById('login-identificador').value.trim();
+    const senha = document.getElementById('login-senha').value.trim();
+
+    if (!login || !senha) {
+        exibirAviso('Informe e-mail/CPF e senha.', 'erro');
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`${ENDERECO_API}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ login, senha })
+        });
+
+        const texto = await resposta.text();
+        const dados = texto ? JSON.parse(texto) : null;
+
+        if (resposta.ok && dados && dados.usuarioId) {
+            salvarSessao(dados);
+            aplicarEstadoSessao();
+            exibirAviso(`Bem-vindo(a) de volta, ${dados.nome}!`, 'sucesso');
+        } else {
+            const msg = (dados && dados.mensagem) || 'E-mail, CPF ou senha inválidos.';
+            exibirAviso(msg, 'erro');
+        }
+    } catch (_) {
+        exibirAviso('Não foi possível conectar ao servidor para efetuar login.', 'erro');
+    }
+}
+
+async function executarCadastro(evento) {
+    if (evento) evento.preventDefault();
+
+    const nome = document.getElementById('cadastro-nome').value.trim();
+    const email = document.getElementById('cadastro-email').value.trim();
+    const cpf = document.getElementById('cadastro-cpf').value.trim();
+    const senha = document.getElementById('cadastro-senha').value.trim();
+
+    if (!nome || !email || !senha) {
+        exibirAviso('Preencha todos os campos obrigatórios.', 'erro');
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`${ENDERECO_API}/auth/cadastro`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, email, cpf, senha })
+        });
+
+        const texto = await resposta.text();
+        const dados = texto ? JSON.parse(texto) : null;
+
+        if (resposta.ok && dados && dados.usuarioId) {
+            salvarSessao(dados);
+            aplicarEstadoSessao();
+            exibirAviso(`Conta criada com sucesso! Olá, ${dados.nome}!`, 'sucesso');
+        } else {
+            const msg = (dados && dados.mensagem) || 'Erro ao realizar cadastro.';
+            exibirAviso(msg, 'erro');
+        }
+    } catch (_) {
+        exibirAviso('Não foi possível conectar ao servidor para cadastrar.', 'erro');
+    }
+}
+
+function fazerLogout() {
+    limparSessao();
+    aplicarEstadoSessao();
+    exibirAviso('Você saiu da sua conta.', 'sucesso');
+}
+
+/* ================================================================
+   NAVEGAÇÃO ENTRE ABAS DA ÁREA LOGADA
    ================================================================ */
 function mostrarAba(nomeAba) {
     document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativa'));
@@ -36,27 +195,28 @@ function mostrarAba(nomeAba) {
    US05 — CONSULTA DE SALDO E CARTEIRA
    ================================================================ */
 async function carregarCarteira() {
-    // Dados de exemplo (usados se o backend não responder)
+    const usuarioId = obterUsuarioId();
     let dados = {
-        saldoPontos:      1250,
-        equivalenteReais: 25.00,
+        saldoPontos:      0,
+        equivalenteReais: 0.00,
         regraCalculo:     '1 kg de PET = 50 pontos • 100 pontos = R$ 2,00',
-        semSaldo:         false
+        semSaldo:         true
     };
+
     try {
-        const resposta = await fetch(`${ENDERECO_API}/carteira/${USUARIO_ID}`);
+        const resposta = await fetch(`${ENDERECO_API}/carteira/${usuarioId}`);
         if (resposta.ok) {
             const texto = await resposta.text();
             if (texto) dados = JSON.parse(texto);
         }
-    } catch (_) { /* usa dados de exemplo */ }
+    } catch (_) { /* fallback gracioso */ }
 
     document.getElementById('saldo-pontos').textContent =
-        dados.saldoPontos.toLocaleString('pt-BR');
+        (dados.saldoPontos || 0).toLocaleString('pt-BR');
     document.getElementById('saldo-reais').textContent =
-        `R$ ${Number(dados.equivalenteReais).toFixed(2).replace('.', ',')}`;
+        `R$ ${Number(dados.equivalenteReais || 0).toFixed(2).replace('.', ',')}`;
     document.getElementById('saldo-area-beneficios').textContent =
-        `${dados.saldoPontos.toLocaleString('pt-BR')} pontos`;
+        `${(dados.saldoPontos || 0).toLocaleString('pt-BR')} pontos`;
     if (dados.regraCalculo) {
         document.getElementById('regra-calculo').textContent = dados.regraCalculo;
     }
@@ -73,24 +233,22 @@ async function carregarCarteira() {
    US01 — HISTÓRICO DE COLETAS
    ================================================================ */
 async function carregarHistoricoColetas() {
-    // Dados de exemplo
+    const usuarioId = obterUsuarioId();
     let historico = {
-        totalPetKg: 4.3,
-        coletas: [
-            { id: 1, pontoColeta: 'Cooperativa Verde',  dataEntrega: '2026-11-14', pesoKg: 2.5, pontosRecebidos: 125, bonusRecebido: 25 },
-            { id: 2, pontoColeta: 'Ecoponto Central',   dataEntrega: '2026-11-09', pesoKg: 1.8, pontosRecebidos: 90,  bonusRecebido: 0  }
-        ]
+        totalPetKg: 0.0,
+        coletas: []
     };
+
     try {
-        const resposta = await fetch(`${ENDERECO_API}/coletas/usuario/${USUARIO_ID}`);
+        const resposta = await fetch(`${ENDERECO_API}/coletas/usuario/${usuarioId}`);
         if (resposta.ok) {
             const texto = await resposta.text();
             if (texto) historico = JSON.parse(texto);
         }
-    } catch (_) { /* usa dados de exemplo */ }
+    } catch (_) { /* fallback gracioso */ }
 
     document.getElementById('total-pet-kg').textContent =
-        `${Number(historico.totalPetKg).toFixed(1).replace('.', ',')} kg`;
+        `${Number(historico.totalPetKg || 0).toFixed(1).replace('.', ',')} kg`;
 
     const lista = document.getElementById('lista-coletas');
     lista.innerHTML = '';
@@ -99,7 +257,7 @@ async function carregarHistoricoColetas() {
         lista.innerHTML = `
             <div class="estado-vazio">
                 <span>🌿</span>
-                <p>Nenhuma coleta registrada ainda.</p>
+                <p>Nenhuma coleta registrada para este usuário ainda.</p>
             </div>`;
         return;
     }
@@ -142,6 +300,7 @@ function fecharModalColeta() {
 }
 
 async function confirmarColeta() {
+    const usuarioId   = obterUsuarioId();
     const pontoColeta = document.getElementById('input-ponto-coleta').value.trim();
     const pesoKg      = parseFloat(document.getElementById('input-peso-kg').value);
     const bonus       = parseInt(document.getElementById('input-bonus').value) || 0;
@@ -161,7 +320,7 @@ async function confirmarColeta() {
         const resposta = await fetch(`${ENDERECO_API}/coletas`, {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ usuarioId: USUARIO_ID, pontoColeta, pesoKg, bonusRecebido: bonus })
+            body:    JSON.stringify({ usuarioId, pontoColeta, pesoKg, bonusRecebido: bonus })
         });
 
         const texto = await resposta.text();
@@ -184,21 +343,17 @@ async function confirmarColeta() {
    US03 — CATÁLOGO DE BENEFÍCIOS
    ================================================================ */
 async function carregarOfertas() {
-    let ofertas = [
-        { id: 10, parceiro: 'Mandabaa Cashback',  titulo: 'Cashback de R$ 5,00',          tipo: 'CASHBACK', custoPontos: 800,  estoque: 10, condicoes: 'Recebimento via PIX após confirmação (até 2 dias úteis).' },
-        { id: 20, parceiro: 'Supermercado Verde',  titulo: 'Desconto de 10% em compras',  tipo: 'CUPOM',    custoPontos: 500,  estoque: 15, condicoes: 'Válido em produtos selecionados nas lojas parceiras.' },
-        { id: 30, parceiro: 'EcoLuz Solar',         titulo: 'Desconto na Conta de Energia', tipo: 'CUPOM',    custoPontos: 1500, estoque: 0,  condicoes: 'Oferta temporariamente esgotada.' }
-    ];
+    let ofertas = [];
     try {
         const resposta = await fetch(`${ENDERECO_API}/ofertas`);
         if (resposta.ok) {
             const texto = await resposta.text();
             if (texto) {
                 const listaBanco = JSON.parse(texto);
-                if (Array.isArray(listaBanco) && listaBanco.length > 0) ofertas = listaBanco;
+                if (Array.isArray(listaBanco)) ofertas = listaBanco;
             }
         }
-    } catch (_) { /* usa dados de exemplo */ }
+    } catch (_) { /* fallback */ }
 
     const grade = document.getElementById('grade-ofertas');
     grade.innerHTML = '';
@@ -277,6 +432,7 @@ function fecharModalResgate() {
 
 async function confirmarResgate() {
     if (!ofertaSelecionada) return;
+    const usuarioId = obterUsuarioId();
     const ofertaAtual = ofertaSelecionada;
     const chavePix = document.getElementById('input-chave-pix').value.trim();
 
@@ -292,7 +448,7 @@ async function confirmarResgate() {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify({
-                usuarioId: USUARIO_ID,
+                usuarioId,
                 ofertaId:  ofertaAtual.id,
                 tipo:      ofertaAtual.tipo || 'CUPOM',
                 chavePix:  ofertaAtual.tipo === 'CASHBACK' ? chavePix : null
@@ -335,17 +491,16 @@ function fecharModalComprovante() {
    US03 — HISTÓRICO DE RESGATES
    ================================================================ */
 async function carregarMeusResgates() {
-    let resgates = [
-        { resgateId: 1, tituloOferta: 'Desconto de 10% em compras', parceiro: 'Supermercado Verde', tipo: 'CUPOM',    situacao: 'DISPONIVEL',       codigoComprovante: 'MANDABAA-500-A1B2', pontosDescontados: 500 },
-        { resgateId: 2, tituloOferta: 'Cashback de R$ 5,00',         parceiro: 'Mandabaa Cashback',  tipo: 'CASHBACK', situacao: 'PAGAMENTO_PENDENTE', codigoComprovante: 'PIX-PENDENTE-002',  pontosDescontados: 800 }
-    ];
+    const usuarioId = obterUsuarioId();
+    let resgates = [];
+
     try {
-        const resposta = await fetch(`${ENDERECO_API}/resgates/usuario/${USUARIO_ID}`);
+        const resposta = await fetch(`${ENDERECO_API}/resgates/usuario/${usuarioId}`);
         if (resposta.ok) {
             const texto = await resposta.text();
             if (texto) resgates = JSON.parse(texto);
         }
-    } catch (_) { /* usa dados de exemplo */ }
+    } catch (_) { /* fallback */ }
 
     const lista = document.getElementById('lista-resgates');
     lista.innerHTML = '';
@@ -354,7 +509,7 @@ async function carregarMeusResgates() {
         lista.innerHTML = `
             <div class="estado-vazio">
                 <span>🎟️</span>
-                <p>Você ainda não resgatou nenhum benefício.</p>
+                <p>Você ainda não resgatou nenhum benefício nesta conta.</p>
             </div>`;
         return;
     }
@@ -407,6 +562,5 @@ function exibirAviso(mensagem, tipo) {
    INICIALIZAÇÃO
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-    carregarCarteira();
-    carregarHistoricoColetas();
+    aplicarEstadoSessao();
 });

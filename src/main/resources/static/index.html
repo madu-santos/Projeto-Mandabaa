@@ -11,14 +11,16 @@
 
     <!-- ===== CABEÇALHO / BARRA DE NAVEGAÇÃO ===== -->
     <header class="barra-navegacao">
-        <div class="marca">
+        <div class="marca" onclick="irParaInicio()" style="cursor: pointer;">
             <div class="logo-circulo">♻️</div>
             <div class="marca-texto">
                 <span class="marca-nome">Mandabaa</span>
                 <span class="marca-slogan">Recicle. Acumule. Resgate.</span>
             </div>
         </div>
-        <nav class="nav-abas">
+
+        <!-- Navegação para quando o usuário ESTÁ logado -->
+        <nav id="nav-logado" class="nav-abas oculto">
             <button class="botao-aba ativa" onclick="mostrarAba('carteira')">
                 <span class="icone-aba">💚</span>
                 <span>Minha Carteira</span>
@@ -32,84 +34,223 @@
                 <span>Meus Resgates</span>
             </button>
         </nav>
+
+        <!-- Área de Perfil / Ações de Sessão -->
+        <div class="area-usuario-header">
+            <!-- Quando DESLOGADO -->
+            <div id="acoes-deslogado" class="acoes-auth-header">
+                <button class="botao-link-header" onclick="mostrarVisaoVisitante('login')">Entrar</button>
+                <button class="botao-destaque-header" onclick="mostrarVisaoVisitante('cadastro')">Cadastre-se</button>
+            </div>
+
+            <!-- Quando LOGADO -->
+            <div id="acoes-logado" class="perfil-logado-header oculto">
+                <div class="chip-usuario">
+                    <span class="avatar-icone">🌱</span>
+                    <span id="header-nome-usuario" class="nome-usuario-header">Usuário</span>
+                </div>
+                <button class="botao-sair-header" onclick="fazerLogout()" title="Sair da conta">Sair 🚪</button>
+            </div>
+        </div>
     </header>
 
     <main class="conteudo-principal">
 
-        <!-- ===== ABA 1: MINHA CARTEIRA (US05) + HISTÓRICO DE COLETAS (US01) ===== -->
-        <section id="aba-carteira" class="aba-conteudo ativa">
+        <!-- ============================================================== -->
+        <!-- BLOCO 1: ÁREA PÚBLICA / VISITANTE (Boas-Vindas, Login e Cadastro) -->
+        <!-- ============================================================== -->
+        <section id="secao-visitante">
+            <!-- 1.1 Tela de Boas-Vindas / Apresentação -->
+            <div id="visao-inicio" class="visao-visitante">
+                <div class="hero-container">
+                    <div class="hero-conteudo">
+                        <span class="pill-ods">ODS 12 • Consumo Responsável | ODS 11 • Cidades Sustentáveis</span>
+                        <h1 class="hero-titulo">Transforme o descarte de plástico PET em <span class="texto-gradiente">benefícios reais</span>.</h1>
+                        <p class="hero-descricao">
+                            O <strong>Mandabaa</strong> conecta você diretamente a cooperativas de reciclagem e empresas parceiras. Descarte suas garrafas PET, acumule pontos rastreáveis e troque por descontos exclusivos e cashback na hora via PIX.
+                        </p>
+                        <div class="hero-acoes">
+                            <button class="botao-primario botao-hero" onclick="mostrarVisaoVisitante('cadastro')">
+                                🚀 Começar a Reciclar Agora
+                            </button>
+                            <button class="botao-secundario botao-hero" onclick="mostrarVisaoVisitante('login')">
+                                Já tenho conta • Entrar
+                            </button>
+                        </div>
+                    </div>
 
-            <!-- Card principal da carteira -->
-            <div class="cartao-carteira">
-                <div class="carteira-topo">
-                    <span class="carteira-label">Saldo Disponível</span>
-                    <span class="carteira-usuario">👤 Alex Silva</span>
+                    <div class="hero-card-impacto">
+                        <div class="card-cotacao-pet">
+                            <div class="cotacao-icone">⚖️</div>
+                            <h3>Regra de Recompensas</h3>
+                            <div class="cotacao-destaque">
+                                <span class="cotacao-peso">1 kg de PET</span>
+                                <span class="cotacao-seta">➔</span>
+                                <span class="cotacao-pontos">50 pontos</span>
+                            </div>
+                            <p class="cotacao-equivalente">100 pontos = R$ 2,00 em descontos ou cashback</p>
+                            <div class="dica-demo">
+                                <strong>💡 Contas para teste rápido:</strong>
+                                <ul>
+                                    <li><code>alex@mandabaa.com</code> (1.250 pontos)</li>
+                                    <li><code>maria@mandabaa.com</code> (0 pontos)</li>
+                                    <li>Senha padrão: <code>123456</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="saldo-destaque">
-                    <span id="saldo-pontos" class="pontos">0</span>
-                    <span class="unidade">pontos</span>
-                </div>
-                <div class="equivalente-reais">
-                    Equivalente a <strong id="saldo-reais">R$ 0,00</strong>
-                </div>
-                <div class="regra-pill">
-                    <span>🌿</span>
-                    <span id="regra-calculo">1 kg de PET = 50 pontos &nbsp;•&nbsp; 100 pontos = R$ 2,00</span>
-                </div>
-                <div id="aviso-sem-saldo" class="aviso-sem-saldo oculto">
-                    <span class="aviso-icone">🌱</span>
-                    <span>Você ainda não tem pontos. Entregue garrafas PET em um ponto de coleta para começar!</span>
-                </div>
-                <button class="botao-primario botao-carteira" onclick="mostrarAba('beneficios')">
-                    🎁 Ver Benefícios Disponíveis
-                </button>
             </div>
 
-            <!-- Histórico de Coletas (US01) -->
-            <div class="bloco-historico">
-                <div class="cabecalho-historico">
-                    <div>
-                        <h2>♻️ Histórico de Coletas</h2>
-                        <p>Total de PET entregue: <strong id="total-pet-kg" class="destaque-verde">0,0 kg</strong></p>
+            <!-- 1.2 Tela de Login -->
+            <div id="visao-login" class="visao-visitante oculto">
+                <div class="card-formulario-auth">
+                    <div class="auth-cabecalho">
+                        <div class="auth-icone">🔐</div>
+                        <h2>Acesse sua Conta</h2>
+                        <p>Entre para consultar seu saldo de pontos e resgatar benefícios.</p>
                     </div>
-                    <button class="botao-registrar" onclick="abrirModalColeta()">+ Registrar Entrega</button>
+
+                    <form id="form-login" onsubmit="executarLogin(event)">
+                        <div class="campo-formulario">
+                            <label for="login-identificador">E-mail ou CPF</label>
+                            <input id="login-identificador" type="text" placeholder="Ex.: alex@mandabaa.com" required autofocus>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="login-senha">Senha</label>
+                            <input id="login-senha" type="password" placeholder="Digite sua senha" required>
+                        </div>
+                        <button type="submit" class="botao-primario botao-submit-auth">
+                            Entrar na Plataforma
+                        </button>
+                    </form>
+
+                    <div class="auth-rodape">
+                        <span>Ainda não tem conta?</span>
+                        <button type="button" class="link-acao-auth" onclick="mostrarVisaoVisitante('cadastro')">Cadastre-se aqui</button>
+                    </div>
                 </div>
-                <div id="lista-coletas" class="lista-registros">
-                    <div class="estado-vazio">
+            </div>
+
+            <!-- 1.3 Tela de Cadastro -->
+            <div id="visao-cadastro" class="visao-visitante oculto">
+                <div class="card-formulario-auth">
+                    <div class="auth-cabecalho">
+                        <div class="auth-icone">🌱</div>
+                        <h2>Crie sua Conta de Reciclador</h2>
+                        <p>Comece a pontuar com a entrega de garrafas PET.</p>
+                    </div>
+
+                    <form id="form-cadastro" onsubmit="executarCadastro(event)">
+                        <div class="campo-formulario">
+                            <label for="cadastro-nome">Nome Completo</label>
+                            <input id="cadastro-nome" type="text" placeholder="Ex.: Juliana Silva" required minlength="3">
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="cadastro-email">E-mail</label>
+                            <input id="cadastro-email" type="email" placeholder="seuemail@exemplo.com" required>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="cadastro-cpf">CPF (apenas números)</label>
+                            <input id="cadastro-cpf" type="text" placeholder="Ex.: 12345678900" maxlength="14">
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="cadastro-senha">Senha (mínimo 4 caracteres)</label>
+                            <input id="cadastro-senha" type="password" placeholder="Crie uma senha de acesso" required minlength="4">
+                        </div>
+                        <button type="submit" class="botao-primario botao-submit-auth">
+                            Criar Conta e Começar
+                        </button>
+                    </form>
+
+                    <div class="auth-rodape">
+                        <span>Já tem cadastro?</span>
+                        <button type="button" class="link-acao-auth" onclick="mostrarVisaoVisitante('login')">Entrar com minha conta</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- BLOCO 2: ÁREA RESTRITA / USUÁRIO LOGADO -->
+        <!-- ============================================================== -->
+        <div id="secao-logado" class="oculto">
+
+            <!-- Aba 1: Minha Carteira (US05) + Histórico de Coletas (US01) -->
+            <section id="aba-carteira" class="aba-conteudo ativa">
+
+                <!-- Card principal da carteira -->
+                <div class="cartao-carteira">
+                    <div class="carteira-topo">
+                        <span class="carteira-label">Saldo Disponível</span>
+                        <span id="carteira-usuario-chip" class="carteira-usuario">👤 Usuário</span>
+                    </div>
+                    <div class="saldo-destaque">
+                        <span id="saldo-pontos" class="pontos">0</span>
+                        <span class="unidade">pontos</span>
+                    </div>
+                    <div class="equivalente-reais">
+                        Equivalente a <strong id="saldo-reais">R$ 0,00</strong>
+                    </div>
+                    <div class="regra-pill">
                         <span>🌿</span>
-                        <p>Nenhuma coleta registrada ainda.</p>
+                        <span id="regra-calculo">1 kg de PET = 50 pontos &nbsp;•&nbsp; 100 pontos = R$ 2,00</span>
+                    </div>
+                    <div id="aviso-sem-saldo" class="aviso-sem-saldo oculto">
+                        <span class="aviso-icone">🌱</span>
+                        <span>Você ainda não tem pontos. Entregue garrafas PET em um ponto de coleta para começar!</span>
+                    </div>
+                    <button class="botao-primario botao-carteira" onclick="mostrarAba('beneficios')">
+                        🎁 Ver Benefícios Disponíveis
+                    </button>
+                </div>
+
+                <!-- Histórico de Coletas (US01) -->
+                <div class="bloco-historico">
+                    <div class="cabecalho-historico">
+                        <div>
+                            <h2>♻️ Histórico de Coletas</h2>
+                            <p>Total de PET entregue por você: <strong id="total-pet-kg" class="destaque-verde">0,0 kg</strong></p>
+                        </div>
+                        <button class="botao-registrar" onclick="abrirModalColeta()">+ Registrar Entrega</button>
+                    </div>
+                    <div id="lista-coletas" class="lista-registros">
+                        <div class="estado-vazio">
+                            <span>🌿</span>
+                            <p>Nenhuma coleta registrada para este usuário ainda.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- ===== ABA 2: BENEFÍCIOS (US03) ===== -->
-        <section id="aba-beneficios" class="aba-conteudo">
-            <div class="cabecalho-secao">
-                <h2>🎁 Benefícios Disponíveis</h2>
-                <p>Seu saldo atual: <strong id="saldo-area-beneficios" class="destaque-verde">0 pontos</strong> — troque por descontos ou cashback.</p>
-            </div>
-            <div id="grade-ofertas" class="grade-cartoes">
-                <div class="estado-vazio">
-                    <span>⏳</span>
-                    <p>Carregando ofertas...</p>
+            <!-- Aba 2: Benefícios (US03) -->
+            <section id="aba-beneficios" class="aba-conteudo">
+                <div class="cabecalho-secao">
+                    <h2>🎁 Benefícios Disponíveis</h2>
+                    <p>Seu saldo atual: <strong id="saldo-area-beneficios" class="destaque-verde">0 pontos</strong> — troque por descontos ou cashback.</p>
                 </div>
-            </div>
-        </section>
+                <div id="grade-ofertas" class="grade-cartoes">
+                    <div class="estado-vazio">
+                        <span>⏳</span>
+                        <p>Carregando ofertas...</p>
+                    </div>
+                </div>
+            </section>
 
-        <!-- ===== ABA 3: MEUS RESGATES (US03) ===== -->
-        <section id="aba-resgates" class="aba-conteudo">
-            <div class="cabecalho-secao">
-                <h2>📋 Meus Benefícios Resgatados</h2>
-                <p>Consulte seus cupons e acompanhe suas solicitações de cashback.</p>
-            </div>
-            <div id="lista-resgates" class="lista-registros">
-                <div class="estado-vazio">
-                    <span>🎟️</span>
-                    <p>Você ainda não resgatou nenhum benefício.</p>
+            <!-- Aba 3: Meus Resgates (US03) -->
+            <section id="aba-resgates" class="aba-conteudo">
+                <div class="cabecalho-secao">
+                    <h2>📋 Meus Benefícios Resgatados</h2>
+                    <p>Consulte seus cupons e acompanhe suas solicitações de cashback.</p>
                 </div>
-            </div>
-        </section>
+                <div id="lista-resgates" class="lista-registros">
+                    <div class="estado-vazio">
+                        <span>🎟️</span>
+                        <p>Você ainda não resgatou nenhum benefício nesta conta.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
     <!-- ===== MODAL: REGISTRAR COLETA (US01) ===== -->

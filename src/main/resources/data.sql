@@ -1,9 +1,13 @@
 -- Carga inicial de demonstração
 
--- Usuário de demonstração
-INSERT INTO usuario (id, nome, saldo_pontos)
-VALUES (1, 'Alex', 1250)
-ON CONFLICT (id) DO NOTHING;
+-- Usuários de demonstração
+INSERT INTO usuario (id, nome, email, senha, cpf, saldo_pontos)
+VALUES (1, 'Alex Silva', 'alex@mandabaa.com', '123456', '12345678900', 1250)
+ON CONFLICT (id) DO UPDATE SET email = EXCLUDED.email, senha = EXCLUDED.senha;
+
+INSERT INTO usuario (id, nome, email, senha, cpf, saldo_pontos)
+VALUES (2, 'Maria Souza', 'maria@mandabaa.com', '123456', '98765432100', 0)
+ON CONFLICT (id) DO UPDATE SET email = EXCLUDED.email, senha = EXCLUDED.senha;
 
 -- Coletas validadas (US01)
 INSERT INTO coleta (id, usuario_id, ponto_coleta, data_entrega, peso_kg, pontos_recebidos, bonus_recebido, validada)

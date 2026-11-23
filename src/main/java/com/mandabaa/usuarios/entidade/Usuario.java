@@ -32,6 +32,14 @@ public class Usuario {
     @Column(nullable = false)
     private String nome;
 
+    @Column(unique = true)
+    private String email;
+
+    private String senha;
+
+    @Column(unique = true)
+    private String cpf;
+
     /** Pontos acumulados disponíveis na carteira (US01, US05 e US03). */
     @Column(name = "saldo_pontos", nullable = false)
     private Integer saldoPontos;
