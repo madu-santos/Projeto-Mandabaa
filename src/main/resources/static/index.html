@@ -5,31 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mandabaa — Plataforma de Reciclagem de PET</title>
     <link rel="stylesheet" href="estilo.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!--
-      ESQUELETO INICIAL DO FRONTEND (Dia 1):
-      Alinhado às 3 histórias do MVP (US05 Carteira, US01 Histórico de Coletas e US03 Benefícios/Resgates).
-      A Pessoa 5 fica responsável por personalizar o layout, cores, tipografia e melhorar a experiência visual.
-    -->
+
+    <!-- ===== CABEÇALHO / BARRA DE NAVEGAÇÃO ===== -->
     <header class="barra-navegacao">
         <div class="marca">
-            <span class="icone">♻️</span>
-            <h1>Mandabaa</h1>
+            <div class="logo-circulo">♻️</div>
+            <div class="marca-texto">
+                <span class="marca-nome">Mandabaa</span>
+                <span class="marca-slogan">Recicle. Acumule. Resgate.</span>
+            </div>
         </div>
-        <nav>
-            <button class="botao-aba ativa" onclick="mostrarAba('carteira')">Minha Carteira</button>
-            <button class="botao-aba" onclick="mostrarAba('beneficios')">Benefícios</button>
-            <button class="botao-aba" onclick="mostrarAba('resgates')">Meus Resgates</button>
+        <nav class="nav-abas">
+            <button class="botao-aba ativa" onclick="mostrarAba('carteira')">
+                <span class="icone-aba">💚</span>
+                <span>Minha Carteira</span>
+            </button>
+            <button class="botao-aba" onclick="mostrarAba('beneficios')">
+                <span class="icone-aba">🎁</span>
+                <span>Benefícios</span>
+            </button>
+            <button class="botao-aba" onclick="mostrarAba('resgates')">
+                <span class="icone-aba">📋</span>
+                <span>Meus Resgates</span>
+            </button>
         </nav>
     </header>
 
     <main class="conteudo-principal">
-        <!-- Aba 1: Minha Carteira (US05) + Histórico de Coletas (US01) -->
+
+        <!-- ===== ABA 1: MINHA CARTEIRA (US05) + HISTÓRICO DE COLETAS (US01) ===== -->
         <section id="aba-carteira" class="aba-conteudo ativa">
+
+            <!-- Card principal da carteira -->
             <div class="cartao-carteira">
-                <h2>Saldo Disponível</h2>
+                <div class="carteira-topo">
+                    <span class="carteira-label">Saldo Disponível</span>
+                    <span class="carteira-usuario">👤 Alex Silva</span>
+                </div>
                 <div class="saldo-destaque">
                     <span id="saldo-pontos" class="pontos">0</span>
                     <span class="unidade">pontos</span>
@@ -37,80 +52,121 @@
                 <div class="equivalente-reais">
                     Equivalente a <strong id="saldo-reais">R$ 0,00</strong>
                 </div>
-                <p id="regra-calculo" class="regra-calculo">
-                    Cada 1 kg de PET validado vale 50 pontos • 100 pontos = R$ 2,00
-                </p>
-                <div id="aviso-sem-saldo" class="aviso-sem-saldo oculto">
-                    Você ainda não tem pontos. Entregue garrafas PET em um ponto de coleta para começar!
+                <div class="regra-pill">
+                    <span>🌿</span>
+                    <span id="regra-calculo">1 kg de PET = 50 pontos &nbsp;•&nbsp; 100 pontos = R$ 2,00</span>
                 </div>
-                <button class="botao-primario" onclick="mostrarAba('beneficios')">🎁 Ver Benefícios</button>
+                <div id="aviso-sem-saldo" class="aviso-sem-saldo oculto">
+                    <span class="aviso-icone">🌱</span>
+                    <span>Você ainda não tem pontos. Entregue garrafas PET em um ponto de coleta para começar!</span>
+                </div>
+                <button class="botao-primario botao-carteira" onclick="mostrarAba('beneficios')">
+                    🎁 Ver Benefícios Disponíveis
+                </button>
             </div>
 
             <!-- Histórico de Coletas (US01) -->
             <div class="bloco-historico">
                 <div class="cabecalho-historico">
                     <div>
-                        <h2>Histórico de Coletas</h2>
-                        <p>Total de PET entregue: <strong id="total-pet-kg">0,0 kg</strong></p>
+                        <h2>♻️ Histórico de Coletas</h2>
+                        <p>Total de PET entregue: <strong id="total-pet-kg" class="destaque-verde">0,0 kg</strong></p>
                     </div>
+                    <button class="botao-registrar" onclick="abrirModalColeta()">+ Registrar Entrega</button>
                 </div>
                 <div id="lista-coletas" class="lista-registros">
-                    <!-- Entregas carregadas pelo script.js -->
+                    <div class="estado-vazio">
+                        <span>🌿</span>
+                        <p>Nenhuma coleta registrada ainda.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Aba 2: Catálogo de Benefícios e Cashback (US03) -->
+        <!-- ===== ABA 2: BENEFÍCIOS (US03) ===== -->
         <section id="aba-beneficios" class="aba-conteudo">
             <div class="cabecalho-secao">
-                <h2>Benefícios Disponíveis</h2>
-                <p>Seu saldo atual: <strong id="saldo-area-beneficios">0 pontos</strong> — troque por descontos ou cashback.</p>
+                <h2>🎁 Benefícios Disponíveis</h2>
+                <p>Seu saldo atual: <strong id="saldo-area-beneficios" class="destaque-verde">0 pontos</strong> — troque por descontos ou cashback.</p>
             </div>
             <div id="grade-ofertas" class="grade-cartoes">
-                <!-- Cartões de ofertas preenchidos pelo script.js -->
+                <div class="estado-vazio">
+                    <span>⏳</span>
+                    <p>Carregando ofertas...</p>
+                </div>
             </div>
         </section>
 
-        <!-- Aba 3: Meus Benefícios Resgatados (US03 - CA07, CA08 e CA09) -->
+        <!-- ===== ABA 3: MEUS RESGATES (US03) ===== -->
         <section id="aba-resgates" class="aba-conteudo">
             <div class="cabecalho-secao">
-                <h2>Meus Benefícios Resgatados</h2>
-                <p>Consulte seus cupons disponíveis e acompanhe o andamento das solicitações de cashback.</p>
+                <h2>📋 Meus Benefícios Resgatados</h2>
+                <p>Consulte seus cupons e acompanhe suas solicitações de cashback.</p>
             </div>
             <div id="lista-resgates" class="lista-registros">
-                <!-- Resgates preenchidos pelo script.js -->
+                <div class="estado-vazio">
+                    <span>🎟️</span>
+                    <p>Você ainda não resgatou nenhum benefício.</p>
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- Janela de Confirmação de Resgate -->
+    <!-- ===== MODAL: REGISTRAR COLETA (US01) ===== -->
+    <div id="modal-coleta" class="fundo-modal oculto">
+        <div class="cartao-modal">
+            <div class="modal-icone">♻️</div>
+            <h3>Registrar Nova Entrega</h3>
+            <p>Informe os dados da entrega validada pelo ponto de coleta.</p>
+            <div class="campo-formulario">
+                <label for="input-ponto-coleta">📍 Ponto de Coleta</label>
+                <input id="input-ponto-coleta" type="text" placeholder="Ex.: Cooperativa Verde">
+            </div>
+            <div class="campo-formulario">
+                <label for="input-peso-kg">⚖️ Peso entregue (kg)</label>
+                <input id="input-peso-kg" type="number" step="0.1" min="0.1" placeholder="Ex.: 2.5">
+            </div>
+            <div class="campo-formulario">
+                <label for="input-bonus">🌟 Pontos de Bônus (opcional)</label>
+                <input id="input-bonus" type="number" min="0" placeholder="0">
+            </div>
+            <div class="acoes-modal">
+                <button class="botao-secundario" onclick="fecharModalColeta()">Cancelar</button>
+                <button class="botao-primario" onclick="confirmarColeta()">Registrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL: CONFIRMAR RESGATE (US03) ===== -->
     <div id="modal-resgate" class="fundo-modal oculto">
         <div class="cartao-modal">
+            <div class="modal-icone">🎁</div>
             <h3>Confirmar Resgate</h3>
             <p id="texto-modal-resgate">Deseja resgatar esta oferta?</p>
             <div id="campo-pix-container" class="campo-formulario oculto">
-                <label for="input-chave-pix">Forma de recebimento (Chave PIX):</label>
+                <label for="input-chave-pix">🔑 Chave PIX para recebimento</label>
                 <input id="input-chave-pix" type="text" placeholder="Ex.: seuemail@exemplo.com">
             </div>
             <div class="acoes-modal">
                 <button class="botao-secundario" onclick="fecharModalResgate()">Cancelar</button>
-                <button id="botao-confirmar-resgate" class="botao-primario">Confirmar</button>
+                <button id="botao-confirmar-resgate" class="botao-primario">Confirmar Resgate</button>
             </div>
         </div>
     </div>
 
-    <!-- Janela de Comprovante após Resgate -->
+    <!-- ===== MODAL: COMPROVANTE DE RESGATE (US03) ===== -->
     <div id="modal-comprovante" class="fundo-modal oculto">
-        <div class="cartao-modal">
-            <div class="icone-sucesso">✅</div>
+        <div class="cartao-modal cartao-comprovante">
+            <div class="icone-sucesso">🎉</div>
             <h3>Resgate Confirmado!</h3>
             <p id="descricao-comprovante">Apresente o código abaixo na loja parceira:</p>
             <div id="codigo-comprovante" class="caixa-codigo">MANDABAA-XXXX</div>
-            <button class="botao-primario" onclick="fecharModalComprovante()">Fechar e Atualizar Saldo</button>
+            <div id="pontos-descontados-comprovante" class="pontos-comprovante"></div>
+            <button class="botao-primario" onclick="fecharModalComprovante()">✅ Fechar e Atualizar</button>
         </div>
     </div>
 
-    <!-- Aviso flutuante (sucesso ou erro) -->
+    <!-- ===== AVISO FLUTUANTE ===== -->
     <div id="aviso-flutuante" class="aviso-flutuante oculto"></div>
 
     <script src="script.js"></script>
