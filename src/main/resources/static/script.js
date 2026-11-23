@@ -6,7 +6,9 @@
  *   US03 — Benefícios, Resgates e Cashback
  */
 
-const ENDERECO_API = 'http://localhost:8080/api';
+const ENDERECO_API = window.location.protocol.startsWith('http')
+    ? `${window.location.origin}/api`
+    : 'http://localhost:8088/api';
 const USUARIO_ID   = 1;
 let ofertaSelecionada = null;
 

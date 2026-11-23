@@ -1,4 +1,6 @@
 services:
+
+  # ---- Banco de Dados PostgreSQL ----
   postgres-mandabaa:
     image: postgres:15-alpine
     container_name: postgres-mandabaa
@@ -7,10 +9,35 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgrespassword
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    restart: always
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mandabaa_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---- Aplicação Spring Boot ----
+  mandabaa-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mandabaa-app
+    ports:
+      - "8088:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-mandabaa:5432/mandabaa_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgrespassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+      SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: "true"
+    depends_on:
+      postgres-mandabaa:
+        condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   postgres_data:
